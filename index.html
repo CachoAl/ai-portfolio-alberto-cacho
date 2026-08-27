@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alberto Cacho — AI Automation Portfolio · Finance Operations</title>
+<meta name="description" content="Five finance-operations processes automated end to end, with human-in-the-loop governance. Alberto Cacho — Sr. Collector & B2B Finance Operations Lead.">
+<style>
+:root{
+  --bg:#04070F; --bg2:#070C1B;
+  --ink:#EEF3FF; --dim:#A3B0CB; --dim2:#6E7C9A;
+  --blue:#2E6BFF; --blue2:#5A93FF; --cyan:#4FD8F5; --teal:#17C39A; --rose:#FF6E7E;
+  --glass:rgba(255,255,255,.05); --glass2:rgba(255,255,255,.08);
+  --stroke:rgba(255,255,255,.10); --stroke2:rgba(255,255,255,.18); --hi:rgba(255,255,255,.14);
+  --sans:"Inter","SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --blur:saturate(170%) blur(22px);
+  --wrap:1130px; --r:18px; --rs:13px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);line-height:1.55;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 28px;position:relative;z-index:2}
+
+/* backdrop */
+.bgfx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:
+  radial-gradient(1200px 700px at 78% -8%, rgba(46,107,255,.21), transparent 62%),
+  radial-gradient(900px 620px at 5% 20%, rgba(79,216,245,.12), transparent 60%),
+  radial-gradient(1000px 800px at 50% 110%, rgba(23,195,154,.10), transparent 62%),
+  linear-gradient(180deg,var(--bg) 0%,var(--bg2) 46%,var(--bg) 100%)}
+.aur{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;mix-blend-mode:screen}
+.a1{width:54vw;height:54vw;background:radial-gradient(circle,rgba(46,107,255,.55),transparent 66%);top:-18vw;right:-13vw;animation:aur1 26s ease-in-out infinite}
+.a2{width:42vw;height:42vw;background:radial-gradient(circle,rgba(79,216,245,.36),transparent 66%);top:40vh;left:-15vw;animation:aur2 34s ease-in-out infinite}
+.a3{width:38vw;height:38vw;background:radial-gradient(circle,rgba(23,195,154,.28),transparent 66%);bottom:-12vw;right:18%;animation:aur3 30s ease-in-out infinite}
+@keyframes aur1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-5vw,4vh) scale(1.13)}}
+@keyframes aur2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(4vw,-5vh) scale(1.1)}}
+@keyframes aur3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-3vw,-4vh) scale(1.16)}}
+.gridl{position:absolute;inset:-2px;opacity:.5;
+  background-image:linear-gradient(rgba(255,255,255,.032) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.032) 1px,transparent 1px);
+  background-size:76px 76px;
+  mask-image:radial-gradient(130% 95% at 50% 0%,#000 0%,transparent 74%);
+  -webkit-mask-image:radial-gradient(130% 95% at 50% 0%,#000 0%,transparent 74%)}
+.grain{position:absolute;inset:0;opacity:.032;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E")}
+.mote{position:absolute;border-radius:50%;background:rgba(255,255,255,.5);animation:float linear infinite}
+@keyframes float{from{transform:translateY(0);opacity:0}12%{opacity:.55}88%{opacity:.4}to{transform:translateY(-70vh);opacity:0}}
+
+/* chrome */
+#prog{position:fixed;top:0;left:0;height:2px;width:0;z-index:60;
+  background:linear-gradient(90deg,var(--cyan),var(--blue) 60%,var(--blue2));box-shadow:0 0 14px rgba(46,107,255,.7)}
+nav{position:fixed;top:0;left:0;right:0;z-index:55;transition:padding .34s ease}
+nav .bar{max-width:var(--wrap);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px 22px;border-radius:99px;border:1px solid transparent;transition:all .34s cubic-bezier(.2,.8,.2,1)}
+nav.stuck{padding:11px 28px 0}
+nav.stuck .bar{background:rgba(9,14,28,.62);border-color:var(--stroke);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  box-shadow:0 10px 40px -14px rgba(0,0,0,.8),inset 0 1px 0 var(--hi);padding:10px 22px}
+nav .who{font-size:13.5px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+nav .who i{font-style:normal;color:var(--dim2);font-weight:400}
+.btn{font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;text-decoration:none;
+  border:1px solid var(--stroke2);background:var(--glass2);color:var(--ink);padding:9px 17px;border-radius:99px;
+  transition:.24s;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);display:inline-block}
+.btn:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3);transform:translateY(-1px)}
+.btn.pri{background:linear-gradient(135deg,var(--blue),#1B4FD8);border-color:transparent;
+  box-shadow:0 8px 26px -8px rgba(46,107,255,.7),inset 0 1px 0 rgba(255,255,255,.24)}
+
+/* glass */
+.glass{background:var(--glass);border:1px solid var(--stroke);border-radius:var(--r);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  box-shadow:0 24px 60px -30px rgba(0,0,0,.9),inset 0 1px 0 var(--hi);position:relative;overflow:hidden}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(160deg,rgba(255,255,255,.07),transparent 44%)}
+.lift{transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s,border-color .4s}
+.lift:hover{transform:translateY(-4px);border-color:var(--stroke2);
+  box-shadow:0 34px 76px -30px rgba(0,0,0,.95),0 0 0 1px rgba(46,107,255,.16),inset 0 1px 0 var(--hi)}
+.lift::after{content:"";position:absolute;top:0;left:-60%;width:45%;height:100%;pointer-events:none;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.08),transparent);transition:left .85s cubic-bezier(.2,.8,.2,1)}
+.lift:hover::after{left:130%}
+
+/* type */
+h1,h2,h3{margin:0;letter-spacing:-.03em;font-weight:600}
+h1{font-size:clamp(38px,6.2vw,70px);line-height:1.02}
+h2{font-size:clamp(25px,3.3vw,38px);line-height:1.1;letter-spacing:-.028em}
+h3{font-size:15.5px;line-height:1.28;letter-spacing:-.015em}
+.grad{background:linear-gradient(104deg,#FFFFFF 8%,#C3D6FF 44%,var(--cyan) 98%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.kicker{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;color:var(--cyan);
+  margin:0 0 14px;display:flex;align-items:center;gap:10px}
+.kicker::before{content:"";width:24px;height:1px;background:linear-gradient(90deg,var(--cyan),transparent)}
+.lede{font-size:16px;color:var(--dim);line-height:1.6;margin:0}
+.lede b{color:var(--ink);font-weight:600}
+.tiny{font-size:11.5px;color:var(--dim2);line-height:1.5}
+p{margin:0 0 12px}
+
+/* hero */
+header{position:relative;padding:158px 0 76px;min-height:88vh;display:flex;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:9px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+  font-weight:700;color:#CFE0FF;background:var(--glass2);border:1px solid var(--stroke);border-radius:99px;
+  padding:8px 16px;margin-bottom:26px;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
+.badge i{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px var(--teal);animation:blip 2.4s ease-in-out infinite}
+@keyframes blip{0%,100%{opacity:.45;transform:scale(.8)}50%{opacity:1;transform:scale(1.25)}}
+header h1{margin-bottom:16px}
+.role{font-size:clamp(14.5px,1.9vw,17.5px);color:var(--dim);margin:0 0 30px}
+.role b{color:#DCE7FF;font-weight:600}
+.pitch{font-size:clamp(19px,2.7vw,28px);line-height:1.4;max-width:32ch;color:#E8EEFF;margin:0 0 20px;letter-spacing:-.022em}
+.pitch b{background:linear-gradient(100deg,var(--cyan),var(--blue2));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:600}
+.oneline{font-size:15.5px;color:var(--dim);max-width:52ch;margin:0 0 34px}
+.oneline b{color:#DCE7FF;font-weight:600}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+@media(max-width:700px){header{padding:126px 0 60px;min-height:auto}}
+
+/* metrics */
+.metrics{padding:0 0 74px}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(172px,1fr));gap:13px}
+.m{padding:20px 19px;border-radius:var(--rs)}
+.m .v{font-size:clamp(26px,3.1vw,35px);font-weight:600;letter-spacing:-.035em;line-height:1;font-variant-numeric:tabular-nums;
+  background:linear-gradient(150deg,#fff,#A9C6FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.m.up .v{background:linear-gradient(150deg,#8FF0D4,var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
+.m .l{font-size:11.5px;color:var(--dim);margin-top:10px;line-height:1.48}
+
+/* sections */
+section{padding:76px 0;position:relative}
+.shead{max-width:70ch;margin-bottom:34px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+@media(max-width:940px){.g2{grid-template-columns:1fr}}
+
+/* compact case cards */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.cs{padding:22px 23px;border-radius:var(--rs);display:flex;flex-direction:column}
+.cs .top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:11px}
+.cs .num{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);font-weight:700}
+.cs .cad{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim2);font-weight:700;white-space:nowrap}
+.cs h3{font-size:18px;letter-spacing:-.025em;margin-bottom:10px;line-height:1.2}
+.cs .what{font-size:13.8px;color:#C6D3EC;line-height:1.55;margin:0 0 14px;flex:1}
+.cs .line{display:flex;gap:10px;font-size:12.5px;line-height:1.5;padding:8px 0;border-top:1px solid var(--stroke)}
+.cs .line .lb{flex:0 0 66px;font-size:9px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;padding-top:3px}
+.cs .line.gd .lb{color:var(--rose)} .cs .line.gd .tx{color:#F0D6D9}
+.cs .line.out .lb{color:var(--teal)} .cs .line.out .tx{color:#D5F1E9}
+.cs.extra{background:linear-gradient(150deg,rgba(46,107,255,.13),rgba(255,255,255,.03));border-color:rgba(120,170,255,.26)}
+
+/* compact lists */
+.mini{padding:8px 24px;border-radius:var(--r)}
+.mrow{display:grid;grid-template-columns:30px 1fr;gap:13px;padding:13px 0;border-bottom:1px solid var(--stroke)}
+.mrow:last-child{border-bottom:0}
+.mrow .ic{font-size:17px;line-height:1.3;text-align:center}
+.mrow .n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--blue2);text-align:center;padding-top:3px}
+.mrow .t{font-size:14.5px;line-height:1.48;color:#E4EBFA;font-weight:500}
+.mrow .t b{color:#fff;font-weight:650}
+.mrow .t span{color:var(--dim);font-weight:400}
+
+/* skills */
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:16px}
+.sk{padding:21px 22px;border-radius:var(--rs)}
+.sk .cat{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--cyan);margin-bottom:13px}
+.sk p{margin:0;font-size:13px;line-height:1.65;color:#C4D1E9}
+
+/* mocks */
+.shell{padding:13px;border-radius:var(--r)}
+.frame{border-radius:11px;overflow:hidden;background:#fff;box-shadow:0 18px 44px -16px rgba(0,0,0,.75)}
+.frame .tb{display:flex;align-items:center;gap:7px;padding:9px 13px;background:#EEF1F6;border-bottom:1px solid #DFE4EC}
+.frame .tb i{width:9px;height:9px;border-radius:50%;background:#C9D0DC;display:block}
+.frame .tb .t{margin-left:9px;font-size:11px;color:#6B7488;font-weight:500}
+.gm{color:#111}
+.gm .row{display:flex;gap:10px;padding:6px 16px;font-size:11.5px;border-bottom:1px solid #F1F3F7;align-items:baseline}
+.gm .row .k{width:48px;color:#8A93A6;flex:0 0 48px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.gm .row.subj .v{font-weight:650;font-size:12.5px}
+.gm .chip{display:inline-block;background:#EAF1FE;border:1px solid #CCDDF9;color:#1D4ED8;border-radius:99px;padding:1px 8px;font-size:10px;margin-right:4px}
+.gm .dp{display:inline-block;background:#FFF1F0;border:1px solid #FBC9C4;color:#D0342C;border-radius:99px;
+  padding:2px 8px;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.gm .body{padding:14px 17px 16px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.5}
+.gm .body p{margin:0 0 8px;font-size:12px}
+.gm .send{padding:10px 16px;border-top:1px solid #EDEFF4;background:#F8FAFC;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.gm .send .b{background:#1D4ED8;color:#fff;border-radius:99px;padding:5px 16px;font-size:11.5px;font-weight:600}
+.gm .send .h{font-size:10.5px;color:#6B7488}
+.tblx{overflow-x:auto}
+table.inv{border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;margin:8px 0 3px}
+table.inv th{font-size:6.8pt;font-weight:700;background:#D5D9E0;padding:3px 6px;white-space:nowrap;text-align:left;color:#000}
+table.inv th.r{text-align:right}
+table.inv td{font-size:7.3pt;padding:2px 6px;white-space:nowrap}
+table.inv td.r{text-align:right}
+table.inv tr.grp td{font-weight:700}
+table.inv tr.tot td{font-weight:700;border-top:.6pt dashed #b8bec9}
+.rd{color:#d93025} .bk{color:#000}
+
+.dash{background:linear-gradient(180deg,#FFFFFF,#F6F9FE);border-radius:11px;padding:16px;color:#0F172A;
+  box-shadow:0 18px 44px -16px rgba(0,0,0,.75)}
+.dash .dtp{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:13px}
+.dash .dtp h4{margin:0;font-size:15px;font-weight:700;letter-spacing:-.015em}
+.dash .dtp .s{font-size:10.5px;color:#66748C;margin-top:3px}
+.dash h4{margin:0 0 12px;font-size:14px;font-weight:700;letter-spacing:-.015em}
+.seg{display:inline-flex;background:#EEF2F8;border:1px solid #DEE5F0;border-radius:99px;padding:3px;gap:2px}
+.seg b{font-size:10px;padding:4px 10px;border-radius:99px;font-weight:600;color:#5A6880}
+.seg b.on{background:#1D4ED8;color:#fff}
+.bento{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:9px;margin-bottom:9px}
+.kpi{background:#fff;border:1px solid #E3E9F2;border-radius:12px;padding:13px 14px}
+.kpi .l{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#66748C;font-weight:700}
+.kpi .n{font-size:21px;font-weight:700;letter-spacing:-.03em;margin-top:6px;font-variant-numeric:tabular-nums}
+.kpi .f{font-size:10px;margin-top:4px;color:#66748C}
+.kpi .wa{color:#C2740A;font-weight:650}
+.b2col{display:grid;grid-template-columns:1.6fr 1fr;gap:9px;margin-bottom:9px}
+@media(max-width:760px){.b2col{grid-template-columns:1fr}}
+.pnl{background:#fff;border:1px solid #E3E9F2;border-radius:12px;padding:13px 14px}
+.pnl .l{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#66748C;font-weight:700}
+.trk{position:relative;height:8px;background:#EDF1F7;border-radius:99px;margin:15px 0 7px}
+.trk .fl{height:100%;border-radius:99px;background:linear-gradient(90deg,#2E6BFF,#4FD8F5);width:0;
+  transition:width 1.6s cubic-bezier(.2,.8,.2,1)}
+.in .trk .fl{width:77%}
+.trk .nw{position:absolute;top:-5px;left:62%;width:2px;height:18px;background:#C0392B;border-radius:2px}
+.trk .nw b{position:absolute;top:-14px;left:-12px;font-size:8.5px;color:#C0392B;font-weight:700}
+.lg{display:flex;justify-content:space-between;font-size:10px;color:#66748C}
+.brk{font-size:11.5px;line-height:2;color:#4B586F;margin-top:8px}
+.brk b{color:#0F172A}
+table.acc{width:100%;border-collapse:collapse;font-size:10.5px;min-width:660px;margin-top:10px}
+table.acc th{text-align:left;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:#66748C;
+  padding:0 7px 7px;border-bottom:1px solid #E3E9F2;font-weight:700}
+table.acc td{padding:8px 7px;border-bottom:1px solid #F1F4F9;vertical-align:top}
+table.acc td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:650}
+.ql{font-size:10px;color:#4B586F;font-style:italic;margin-top:2px;line-height:1.45;display:block}
+.bdg{display:inline-block;border-radius:99px;padding:2px 8px;font-size:9px;font-weight:650;border:1px solid;white-space:nowrap}
+.b1{background:#EFFBF7;color:#0B7D62;border-color:#A7E4D3}
+.b2{background:#FEF2F2;color:#B03A2E;border-color:#F5C0BA}
+.b3{background:#FFFAEB;color:#A5670A;border-color:#F7DFA5}
+.b4{background:#EEF3FE;color:#1D4ED8;border-color:#C9DBFA}
+.bt{border:1px solid #CFD8E6;background:#fff;border-radius:7px;padding:3px 9px;font-size:9px;font-weight:600;color:#33415A;white-space:nowrap}
+.bt.off{color:#93A0B5;background:#F7F9FC}
+/* feature block for the dashboard */
+.feat{display:grid;grid-template-columns:1fr;gap:18px}
+.featnotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.fn{padding:16px 18px;border-radius:var(--rs)}
+.fn .cat{font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--cyan);margin-bottom:8px}
+.fn p{margin:0;font-size:12.8px;line-height:1.55;color:#C4D1E9}
+.fn p b{color:#fff;font-weight:600}
+.fn.g .cat{color:var(--teal)}
+.fn.r .cat{color:var(--rose)}
+
+.note{padding:17px 20px;border-radius:var(--rs);
+  background:linear-gradient(135deg,rgba(245,185,77,.10),rgba(245,185,77,.03));border:1px solid rgba(245,185,77,.26)}
+.note p{margin:0;font-size:12.5px;line-height:1.6;color:#F0DEBB}
+.note p b{color:#FFF0D2}
+.quote{font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.5;color:#D8E4FF;letter-spacing:-.01em}
+.callout{padding:20px 24px;border-radius:var(--rs);
+  background:linear-gradient(135deg,rgba(46,107,255,.14),rgba(79,216,245,.05));border:1px solid rgba(120,170,255,.22)}
+.callout p{margin:0;color:#DFE8FF;font-size:15px;line-height:1.6}
+.callout p b{color:#fff}
+
+/* footer */
+footer{padding:80px 0 60px}
+footer .card{padding:42px 44px;border-radius:24px;
+  background:linear-gradient(150deg,rgba(46,107,255,.18),rgba(79,216,245,.06) 55%,rgba(255,255,255,.03));
+  border:1px solid rgba(120,170,255,.24)}
+footer .cta{margin-top:26px}
+footer .fine{margin-top:30px;padding-top:20px;border-top:1px solid var(--stroke);font-size:11.5px;color:var(--dim2);line-height:1.7}
+footer .fine b{color:#B9C7E4}
+@media(max-width:700px){footer .card{padding:28px 22px}}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(24px) scale(.986);filter:blur(6px);
+  transition:opacity .76s cubic-bezier(.2,.8,.2,1),transform .76s cubic-bezier(.2,.8,.2,1),filter .76s}
+.rv.in{opacity:1;transform:none;filter:blur(0)}
+.rv.d1{transition-delay:.07s}.rv.d2{transition-delay:.14s}.rv.d3{transition-delay:.21s}
+.rv.d4{transition-delay:.28s}.rv.d5{transition-delay:.35s}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important;filter:none!important}.aur,.mote{animation:none}}
+
+@media print{
+  nav,#prog,.mote,footer .cta{display:none!important}
+  html,body{background:#04070F!important}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  .bgfx{position:absolute;height:100%}
+  .rv{opacity:1!important;transform:none!important;filter:none!important}
+  header{min-height:auto;padding:44px 0 30px}
+  section{padding:30px 0;page-break-inside:avoid}
+  .cs,.sk,.m{page-break-inside:avoid}
+  .glass{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(255,255,255,.06)}
+}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+<div class="bgfx">
+  <div class="gridl"></div>
+  <div class="aur a1"></div><div class="aur a2"></div><div class="aur a3"></div>
+  <div class="grain"></div>
+  <div class="mote" style="left:12%;top:90%;width:3px;height:3px;animation-duration:20s"></div>
+  <div class="mote" style="left:34%;top:95%;width:2px;height:2px;animation-duration:25s;animation-delay:4s"></div>
+  <div class="mote" style="left:62%;top:92%;width:3px;height:3px;animation-duration:22s;animation-delay:8s"></div>
+  <div class="mote" style="left:84%;top:96%;width:2px;height:2px;animation-duration:27s;animation-delay:2s"></div>
+</div>
+
+<nav id="nav">
+  <div class="bar">
+    <div class="who">Alberto Cacho <i>· AI Automation Portfolio</i></div>
+    <button class="btn" onclick="window.print()">Save as PDF</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header>
+  <div class="wrap">
+    <div class="badge rv in"><i></i> Finance Strategy &amp; Operations · FP&amp;A · AI Automation</div>
+    <h1 class="rv in"><span class="grad">Alberto Cacho</span></h1>
+    <p class="role rv in d1"><b>Sr. Collector &amp; B2B Finance Operations Lead</b> — DDFB Unit, DoorDash · Mexico City</p>
+    <p class="pitch rv in d2">I automate finance operations end to end — and I design <b>where the automation has to stop and ask a human.</b></p>
+    <p class="oneline rv in d3">Five recurring processes, now running as tools across a portfolio of <b>~2,500 enterprise accounts</b>. Two of them grew into systems that remember what happened last month.</p>
+    <div class="cta rv in d4">
+      <a class="btn pri" href="https://www.linkedin.com/in/albertocacho/" target="_blank" rel="noopener">linkedin.com/in/albertocacho</a>
+      <a class="btn" href="mailto:alberto.lcacho@hotmail.com">alberto.lcacho@hotmail.com</a>
+      <a class="btn" href="tel:+525635499199">+52 56 3549 9199</a>
+    </div>
+  </div>
+</header>
+
+<!-- METRICS -->
+<div class="metrics">
+  <div class="wrap">
+    <div class="mgrid">
+      <div class="m glass lift rv up" data-count="93" data-pre="−" data-suf="%"><div class="v">−0%</div><div class="l">overdue balances across the business unit</div></div>
+      <div class="m glass lift rv d1 up" data-count="45" data-pre="+" data-suf="%"><div class="v">+0%</div><div class="l">forecast accuracy</div></div>
+      <div class="m glass lift rv d2"><div class="v" style="font-size:clamp(19px,2.1vw,24px)">2.5 wks → 5 days</div><div class="l">AR communication cycle</div></div>
+      <div class="m glass lift rv d3" data-count="100" data-suf="+"><div class="v">0+</div><div class="l">accounts contacted in one sitting, monthly</div></div>
+      <div class="m glass lift rv d4" data-count="20" data-pre="~$" data-suf="M"><div class="v">~$0M</div><div class="l">open AR reconciled in a pipeline migration</div></div>
+      <div class="m glass lift rv d5"><div class="v">0</div><div class="l">customer-facing outputs sent unreviewed</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- THE WORK -->
+<section id="work">
+  <div class="wrap">
+    <div class="shead rv">
+      <p class="kicker">The work</p>
+      <h2>Five processes, <span class="grad">in production</span></h2>
+      <p class="lede" style="margin-top:14px">Each tool is a written procedure an AI agent executes end to end — with the arithmetic proven before anything is produced.</p>
+    </div>
+
+    <div class="cases">
+      <div class="cs glass lift rv">
+        <div class="top"><span class="num">01</span><span class="cad">Monthly</span></div>
+        <h3>Monthly AR Communications</h3>
+        <p class="what">One collection email per forecast account — correct template for the account's status, recipients resolved and cleaned, invoice table rendered from the data instead of pasted.</p>
+        <div class="line gd"><span class="lb">Guardrail</span><span class="tx">Balances must reconcile to the cent before a draft exists. Net-credit accounts are never chased.</span></div>
+        <div class="line out"><span class="lb">Outcome</span><span class="tx">100+ accounts in one sitting. The first week of the month freed for negotiations.</span></div>
+      </div>
+
+      <div class="cs glass lift rv d1">
+        <div class="top"><span class="num">02</span><span class="cad">Continuous</span></div>
+        <h3>Forecast Tracking</h3>
+        <p class="what">Reads the money from the forecast and the <i>reason</i> from the customer's own email replies — classified into 13 blockers, each with a verbatim quote and a link to the thread.</p>
+        <div class="line gd"><span class="lb">Guardrail</span><span class="tx">Never sends or drafts on its own. Refuses to publish when the source read looks incomplete.</span></div>
+        <div class="line out"><span class="lb">Outcome</span><span class="tx">From "still unpaid" to a named, evidenced reason — so unapplied credits stop triggering dunning emails.</span></div>
+      </div>
+
+      <div class="cs glass lift rv d2">
+        <div class="top"><span class="num">03</span><span class="cad">Weekly</span></div>
+        <h3>Weekly Deactivation Report</h3>
+        <p class="what">Screens the full portfolio, ranks the worst-paying accounts by 60+ day exposure, groups them by owner — and reads <b>last week's own email</b> to carry my commentary forward.</p>
+        <div class="line gd"><span class="lb">Guardrail</span><span class="tx">Never invents commentary. Stops and asks when an account's owner is unknown.</span></div>
+        <div class="line out"><span class="lb">Outcome</span><span class="tx">A report nobody rebuilds, with week-over-week movement and gross-vs-net exposure both stated.</span></div>
+      </div>
+
+      <div class="cs glass lift rv d3">
+        <div class="top"><span class="num">04</span><span class="cad">Scheduled weekly</span></div>
+        <h3>Ticket Triage &amp; Distribution</h3>
+        <p class="what">Classifies every ticket over five days old by reading the body, not the subject — 13 request types — then routes mine back to me and distributes the rest evenly across the team.</p>
+        <div class="line gd"><span class="lb">Guardrail</span><span class="tx">A scheduled run prepares everything and stops. No closure or reassignment without my approval.</span></div>
+        <div class="line out"><span class="lb">Outcome</span><span class="tx">The queue stopped aging. I review one report instead of opening thirty tickets.</span></div>
+      </div>
+
+      <div class="cs glass lift rv d4">
+        <div class="top"><span class="num">05</span><span class="cad">On demand</span></div>
+        <h3>Manual Tax Invoices — AU GST</h3>
+        <p class="what">Low-volume, high-consequence manual invoicing where the tax has to be right before the document leaves. The rules written down once, then computed rather than remembered.</p>
+        <div class="line gd"><span class="lb">Guardrail</span><span class="tx">No customer tax registration number, no document — and the arithmetic must close before it renders.</span></div>
+        <div class="line out"><span class="lb">Outcome</span><span class="tx">A whole class of error gone: no corrections, no credit-and-rebill, no apology to the customer.</span></div>
+      </div>
+
+      <div class="cs glass lift rv d5 extra">
+        <div class="top"><span class="num">Also delivered</span><span class="cad">AI Integration Analyst</span></div>
+        <h3>AI Voice Agent for Collections</h3>
+        <p class="what">Deployed an AI voice agent for outbound calls on the high-volume, low-balance segment — integrated with the ticketing system so every outcome produced a traceable follow-up.</p>
+        <div class="line out"><span class="lb">Outcome</span><span class="tx">Coverage extended to a segment with almost no direct contact before, without adding headcount.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section id="proof">
+  <div class="wrap">
+    <div class="shead rv">
+      <p class="kicker">Case 01 in depth · Monthly AR Communications</p>
+      <h2>A collection email, <span class="grad">generated and reconciled</span></h2>
+      <p class="lede" style="margin-top:14px">Nothing here was typed or pasted. Recipients, balances and every invoice row come from the query — and the arithmetic is proven before the draft exists.</p>
+    </div>
+
+    <div class="g2">
+      <div class="rv">
+        <div class="shell glass">
+          <div class="frame">
+            <div class="tb"><i></i><i></i><i></i><span class="t">Draft — prepared, not sent</span></div>
+            <div class="gm">
+              <div class="row"><div class="k">To</div><div class="v"><span class="chip">accounts.payable@client-a.example</span> <span class="dp">Draft</span></div></div>
+              <div class="row subj"><div class="k">Subject</div><div class="v">Client A — Enterprise account · August statement</div></div>
+              <div class="body">
+                <p>Hello, team.</p>
+                <p>I would like to send a friendly reminder of the open balance we have in the account:</p>
+                <p style="margin-bottom:10px">
+                  <strong>Open AR Balance (USD):</strong> <span style="color:#000">$38,920.78</span><br>
+                  <strong>Current (Not Due):</strong> <span style="color:#000">$5,361.71</span><br>
+                  <strong>Past Due:</strong> <span style="color:#d93025">$33,559.07</span>
+                </p>
+                <div class="tblx">
+                  <table class="inv">
+                    <thead><tr><th>Client</th><th>Type</th><th>Document</th><th>Due Date</th><th class="r">Age</th><th class="r">Open Balance</th></tr></thead>
+                    <tbody>
+                      <tr class="grp"><td colspan="2">Client A — Enterprise account</td><td colspan="4"></td></tr>
+                      <tr><td></td><td class="rd">Invoice</td><td class="rd">INV-0002</td><td class="rd">1/30/2026</td><td class="r rd">163</td><td class="r rd">$4,568.76</td></tr>
+                      <tr><td></td><td class="rd">Invoice</td><td class="rd">INV-0003</td><td class="rd">3/2/2026</td><td class="r rd">132</td><td class="r rd">$5,855.26</td></tr>
+                      <tr><td></td><td class="rd">Invoice</td><td class="rd">INV-0005</td><td class="rd">4/30/2026</td><td class="r rd">73</td><td class="r rd">$6,118.35</td></tr>
+                      <tr><td></td><td class="rd">Invoice</td><td class="rd">INV-0006</td><td class="rd">5/30/2026</td><td class="r rd">43</td><td class="r rd">$6,171.82</td></tr>
+                      <tr><td></td><td class="rd">Invoice</td><td class="rd">INV-0007</td><td class="rd">6/30/2026</td><td class="r rd">12</td><td class="r rd">$5,631.88</td></tr>
+                      <tr><td></td><td class="bk">Invoice</td><td class="bk">INV-0008</td><td class="bk">7/30/2026</td><td class="r bk">-18</td><td class="r bk">$5,361.71</td></tr>
+                      <tr class="tot"><td colspan="4">Total</td><td></td><td class="r">$38,920.78</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p style="margin-top:10px">Would you be so kind as to confirm the expected payment date of the overdue balance?</p>
+                <p style="margin-bottom:0">Thank you and have a great day ahead!</p>
+              </div>
+              <div class="send"><span class="b">Send</span><span class="h">Nothing sends itself.</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="tiny" style="margin-top:11px">Overdue lines red, the not-yet-due line black — red on a current invoice reads as chasing money the customer doesn't owe yet. The summary block and the table are derived from the same query, so they cannot disagree.</p>
+      </div>
+
+      <div class="rv d1">
+        <div class="fn glass">
+          <div class="cat">Why this one is safe to send</div>
+          <p>The summary block and the itemised table are derived from the same query, so they <b>cannot disagree</b>. If an account's balance doesn't reconcile to the cent, no draft is created at all.</p>
+        </div>
+        <div class="fn glass r" style="margin-top:14px">
+          <div class="cat">Where I stay in control</div>
+          <p>The body deliberately ends without a signature — I insert mine while reviewing each one. <b>Nothing sends itself</b>, across 100+ accounts a month.</p>
+        </div>
+        <div class="note" style="margin-top:14px">
+          <p><b>Everything here is anonymised.</b> No client identities, colleague names, internal system names or confidential amounts. Interface examples use synthetic data; the structures and validation logic are real.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORECAST TRACKING — FEATURED -->
+<section id="dashboard">
+  <div class="wrap">
+    <div class="shead rv">
+      <p class="kicker">Case 02 in depth · Forecast Tracking</p>
+      <h2>The dashboard <span class="grad">I actually open</span></h2>
+      <p class="lede" style="margin-top:14px">The money reads live from the source every time it opens. The <b>reason</b> underneath each open account comes from the customer's own email replies — not from a status field somebody forgot to update.</p>
+    </div>
+
+    <div class="feat">
+      <div class="shell glass rv">
+        <div class="dash">
+          <div class="dtp">
+            <div>
+              <h4>Forecast Tracking — collections portfolio</h4>
+              <div class="s">Reads the monthly forecast live on open · 52 accounts in scope · figures synthetic</div>
+            </div>
+            <div class="seg"><b class="on">Professional</b><b>Midnight</b><b>Presentation</b></div>
+          </div>
+
+          <div class="bento">
+            <div class="kpi"><div class="l">Committed forecast</div><div class="n">$2.41M</div><div class="f">52 accounts in scope</div></div>
+            <div class="kpi"><div class="l">Cash collected</div><div class="n">$1.86M</div><div class="f"><span class="wa">77% of forecast</span></div></div>
+            <div class="kpi"><div class="l">Outstanding</div><div class="n">$554K</div><div class="f">21 accounts open</div></div>
+            <div class="kpi"><div class="l">Required run rate</div><div class="n">$46.2K</div><div class="f">per business day · 12 days left</div></div>
+          </div>
+
+          <div class="b2col">
+            <div class="pnl">
+              <div class="l">Collection progress</div>
+              <div class="trk"><div class="fl"></div><div class="nw"><b>today</b></div></div>
+              <div class="lg"><span>77% collected</span><span>62% of the month elapsed</span></div>
+            </div>
+            <div class="pnl">
+              <div class="l">Portfolio breakdown</div>
+              <div class="brk"><b>31</b> paid · <b>9</b> partial<br><b>12</b> no payment · <b>3</b> residual to review</div>
+            </div>
+          </div>
+
+          <div class="pnl">
+            <div class="l" style="margin-bottom:11px">Open accounts — 21 accounts · $554,180 outstanding</div>
+            <div class="tblx">
+              <table class="acc">
+                <thead><tr>
+                  <th style="width:20%">Account</th><th class="r">Outstanding</th><th style="width:17%">Blocker</th>
+                  <th style="width:33%">Evidence from the customer</th><th>Follow-up</th>
+                </tr></thead>
+                <tbody>
+                  <tr>
+                    <td>Client B · Retail</td><td class="r">$16,830.64</td>
+                    <td><span class="bdg b1">Credit not applied</span></td>
+                    <td><span class="ql">An open credit matches the outstanding amount to the cent — routes to cash application, the customer is not contacted.</span></td>
+                    <td><span class="bt off">Not applicable</span></td>
+                  </tr>
+                  <tr>
+                    <td>Client A · Enterprise</td><td class="r">$33,559.07</td>
+                    <td><span class="bdg b2">Promise broken</span></td>
+                    <td><span class="ql">Customer committed to a payment date in writing; that date has now passed.</span></td>
+                    <td><span class="bt">Draft follow-up</span></td>
+                  </tr>
+                  <tr>
+                    <td>Client C · Technology</td><td class="r">$41,208.00</td>
+                    <td><span class="bdg b3">PO missing</span></td>
+                    <td><span class="ql">Purchase orders on file no longer exist in the customer's procurement system — billing blocked upstream.</span></td>
+                    <td><span class="bt off">Draft created</span></td>
+                  </tr>
+                  <tr>
+                    <td>Client D · Media</td><td class="r">$12,470.00</td>
+                    <td><span class="bdg b4">Invoice not received</span></td>
+                    <td><span class="ql">Customer has no record of receiving the invoice; the distribution list needs correcting on our side.</span></td>
+                    <td><span class="bt">Draft follow-up</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="featnotes">
+        <div class="fn glass lift rv">
+          <div class="cat">The money is live</div>
+          <p>Forecast, collected, outstanding and the <b>run rate I need per remaining business day</b> — read from the source on every open, so the number is never a stale screenshot.</p>
+        </div>
+        <div class="fn glass lift rv d1">
+          <div class="cat">The reason is evidenced</div>
+          <p>Each open account carries one of <b>13 blocker categories</b> plus the customer's verbatim sentence and a link to the thread. Four accounts, four completely different next actions.</p>
+        </div>
+        <div class="fn glass lift rv d2 g">
+          <div class="cat">Two of these shouldn't be chased</div>
+          <p>The unapplied credit is <b>our</b> cash-application task, so it has no follow-up button at all. The blocked PO already has a draft, locked so the customer can't be chased twice.</p>
+        </div>
+        <div class="fn glass lift rv d3 r">
+          <div class="cat">The follow-up is gated</div>
+          <p>The tool proposes the next step and the date it's due — it never executes it. A follow-up draft exists <b>only when I press the button</b>, and the button then disables itself.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHOD + LIMITS -->
+<section id="how">
+  <div class="wrap">
+    <div class="g2">
+      <div>
+        <div class="shead rv" style="margin-bottom:22px">
+          <p class="kicker">How I build</p>
+          <h2>Four steps <span class="grad">that repeat</span></h2>
+        </div>
+        <div class="mini glass rv d1">
+          <div class="mrow"><div class="n">01</div><div class="t"><b>Map the manual process first.</b> <span>Write down how the job is done today, with no AI — naming the decision made at each step.</span></div></div>
+          <div class="mrow"><div class="n">02</div><div class="t"><b>Decide where AI belongs.</b> <span>"Copy A into B" is plain automation. "Read, classify, decide, write" is where a model earns its place.</span></div></div>
+          <div class="mrow"><div class="n">03</div><div class="t"><b>Build the human gate in from the start.</b> <span>The result stops for approval before it reaches a customer — never bolted on afterwards.</span></div></div>
+          <div class="mrow"><div class="n">04</div><div class="t"><b>Turn every correction into a written rule</b> <span>— with the real case attached. The tools get more correct with use instead of decaying.</span></div></div>
+        </div>
+        <div class="callout rv d2" style="margin-top:18px">
+          <p>Two of the five outgrew being a single procedure. The moment I needed to know <b>what happened last month</b>, a stateless tool wasn't enough — so they became systems where one stage writes a ledger another reads a month later.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="shead rv d1" style="margin-bottom:22px">
+          <p class="kicker">Governance</p>
+          <h2>Where the AI <span class="grad">has to stop</span></h2>
+        </div>
+        <div class="mini glass rv d2">
+          <div class="mrow"><div class="ic">✋</div><div class="t"><b>Nothing customer-facing sends itself.</b> <span>Every email, invoice and ticket resolution waits for a human.</span></div></div>
+          <div class="mrow"><div class="ic">🚫</div><div class="t"><b>Never chase a credit balance.</b> <span>Net-negative accounts are excluded regardless of status.</span></div></div>
+          <div class="mrow"><div class="ic">✍️</div><div class="t"><b>Never invent commentary.</b> <span>A new account shows an empty cell. Blank is the honest answer.</span></div></div>
+          <div class="mrow"><div class="ic">🙋</div><div class="t"><b>Never guess a classification.</b> <span>Unknown owner means the run pauses and asks me.</span></div></div>
+          <div class="mrow"><div class="ic">📉</div><div class="t"><b>Never report a number it can't prove.</b> <span>Failed reconciliations and implausible source reads abort the report.</span></div></div>
+        </div>
+        <div class="callout rv d3" style="margin-top:18px">
+          <p class="quote" style="margin:0">"A tool that stops and asks is worth more than one that's confidently wrong."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="wrap">
+    <div class="shead rv">
+      <p class="kicker">Capabilities</p>
+      <h2>What <span class="grad">transfers</span></h2>
+    </div>
+    <div class="skills">
+      <div class="sk glass lift rv">
+        <div class="cat">AI &amp; automation</div>
+        <p>Agentic workflow design · procedure design with explicit rule precedence · human-in-the-loop governance · multi-stage systems with persistent state · scheduled agents</p>
+      </div>
+      <div class="sk glass lift rv d1">
+        <div class="cat">Data &amp; controls</div>
+        <p>SQL and invoice-level warehouse modelling · pipeline reconciliation and field-by-field validation · pre-output validation gates · source-of-truth definition</p>
+      </div>
+      <div class="sk glass lift rv d2">
+        <div class="cat">Finance operations</div>
+        <p>B2B collections and AR at enterprise scale · dunning and escalation design · credit memo and cash-application diagnosis · forecast attainment and variance · AU GST compliance</p>
+      </div>
+      <div class="sk glass lift rv d3">
+        <div class="cat">Tools</div>
+        <p>Snowflake · NetSuite · Jira · Google Workspace and Gmail API automation · Excel automation · self-contained HTML dashboards · Spanish (native) / English (professional)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="card rv">
+      <p class="kicker">Get in touch</p>
+      <h2>Happy to walk through <span class="grad">any of these</span></h2>
+      <p class="lede" style="max-width:56ch;margin-top:14px">Focused on FP&amp;A and Finance Strategy &amp; Operations roles. If you're building automation inside a finance team, I'd enjoy the conversation.</p>
+      <div class="cta">
+        <a class="btn pri" href="https://www.linkedin.com/in/albertocacho/" target="_blank" rel="noopener">linkedin.com/in/albertocacho</a>
+        <a class="btn" href="mailto:alberto.lcacho@hotmail.com">alberto.lcacho@hotmail.com</a>
+        <a class="btn" href="tel:+525635499199">+52 56 3549 9199</a>
+      </div>
+      <div class="fine">
+        <b>Alberto Cacho</b> — Sr. Collector &amp; B2B Finance Operations Lead · Mexico City<br>
+        All examples anonymised; interface examples use synthetic data.
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add('in');
+      if(e.target.hasAttribute('data-count')) countUp(e.target);
+      io.unobserve(e.target);
+    });
+  },{threshold:.14, rootMargin:'0px 0px -60px 0px'});
+  document.querySelectorAll('.rv,[data-count]').forEach(function(el){ io.observe(el); });
+
+  function countUp(el){
+    var target = parseFloat(el.getAttribute('data-count'));
+    var pre = el.getAttribute('data-pre') || '', suf = el.getAttribute('data-suf') || '';
+    var out = el.querySelector('.v'); if(!out) return;
+    var dur = 1400, t0 = null;
+    function frame(ts){
+      if(!t0) t0 = ts;
+      var p = Math.min((ts - t0)/dur, 1), e = 1 - Math.pow(1-p, 3);
+      out.textContent = pre + Math.round(target*e).toLocaleString('en-US') + suf;
+      if(p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  var nav = document.getElementById('nav'), prog = document.getElementById('prog'),
+      aur = document.querySelectorAll('.aur'), ticking = false;
+  function onScroll(){
+    var y = window.scrollY || window.pageYOffset;
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    prog.style.width = (h>0 ? (y/h)*100 : 0) + '%';
+    nav.classList.toggle('stuck', y > 40);
+    for(var i=0;i<aur.length;i++){ aur[i].style.transform = 'translate3d(0,'+(y*(0.05+i*0.035))+'px,0)'; }
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){ if(!ticking){ requestAnimationFrame(onScroll); ticking = true; } }, {passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>
