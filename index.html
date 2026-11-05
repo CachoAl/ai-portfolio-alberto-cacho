@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alberto Cacho — AI Automation Portfolio · Finance Operations</title>
+<meta name="description" content="Six finance-operations processes automated end to end — led by a multi-agent monthly cash forecast —, with human-in-the-loop governance. Alberto Cacho — Sr. Collector & B2B Finance Operations Lead.">
+<style>
+:root{
+  --bg:#04070F; --bg2:#070C1B;
+  --ink:#EEF3FF; --dim:#A3B0CB; --dim2:#6E7C9A;
+  --blue:#2E6BFF; --blue2:#5A93FF; --cyan:#4FD8F5; --teal:#17C39A; --rose:#FF6E7E;
+  --glass:rgba(255,255,255,.05); --glass2:rgba(255,255,255,.08);
+  --stroke:rgba(255,255,255,.10); --stroke2:rgba(255,255,255,.18); --hi:rgba(255,255,255,.14);
+  --sans:"Inter","SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --blur:saturate(170%) blur(22px);
+  --wrap:1130px; --r:18px; --rs:13px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);line-height:1.55;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 28px;position:relative;z-index:2}
+
+/* backdrop */
+.bgfx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:
+  radial-gradient(1200px 700px at 78% -8%, rgba(46,107,255,.21), transparent 62%),
+  radial-gradient(900px 620px at 5% 20%, rgba(79,216,245,.12), transparent 60%),
+  radial-gradient(1000px 800px at 50% 110%, rgba(23,195,154,.10), transparent 62%),
+  linear-gradient(180deg,var(--bg) 0%,var(--bg2) 46%,var(--bg) 100%)}
+.aur{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;mix-blend-mode:screen}
+.a1{width:54vw;height:54vw;background:radial-gradient(circle,rgba(46,107,255,.55),transparent 66%);top:-18vw;right:-13vw;animation:aur1 26s ease-in-out infinite}
+.a2{width:42vw;height:42vw;background:radial-gradient(circle,rgba(79,216,245,.36),transparent 66%);top:40vh;left:-15vw;animation:aur2 34s ease-in-out infinite}
+.a3{width:38vw;height:38vw;background:radial-gradient(circle,rgba(23,195,154,.28),transparent 66%);bottom:-12vw;right:18%;animation:aur3 30s ease-in-out infinite}
+@keyframes aur1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-5vw,4vh) scale(1.13)}}
+@keyframes aur2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(4vw,-5vh) scale(1.1)}}
+@keyframes aur3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-3vw,-4vh) scale(1.16)}}
+.gridl{position:absolute;inset:-2px;opacity:.5;
+  background-image:linear-gradient(rgba(255,255,255,.032) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.032) 1px,transparent 1px);
+  background-size:76px 76px;
+  mask-image:radial-gradient(130% 95% at 50% 0%,#000 0%,transparent 74%);
+  -webkit-mask-image:radial-gradient(130% 95% at 50% 0%,#000 0%,transparent 74%)}
+.grain{position:absolute;inset:0;opacity:.032;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E")}
+.mote{position:absolute;border-radius:50%;background:rgba(255,255,255,.5);animation:float linear infinite}
+@keyframes float{from{transform:translateY(0);opacity:0}12%{opacity:.55}88%{opacity:.4}to{transform:translateY(-70vh);opacity:0}}
+
+/* chrome */
+#prog{position:fixed;top:0;left:0;height:2px;width:0;z-index:60;
+  background:linear-gradient(90deg,var(--cyan),var(--blue) 60%,var(--blue2));box-shadow:0 0 14px rgba(46,107,255,.7)}
+nav{position:fixed;top:0;left:0;right:0;z-index:55;transition:padding .34s ease}
+nav .bar{max-width:var(--wrap);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px 22px;border-radius:99px;border:1px solid transparent;transition:all .34s cubic-bezier(.2,.8,.2,1)}
+nav.stuck{padding:11px 28px 0}
+nav.stuck .bar{background:rgba(9,14,28,.62);border-color:var(--stroke);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  box-shadow:0 10px 40px -14px rgba(0,0,0,.8),inset 0 1px 0 var(--hi);padding:10px 22px}
+nav .who{font-size:13.5px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+nav .who i{font-style:normal;color:var(--dim2);font-weight:400}
+.btn{font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;text-decoration:none;
+  border:1px solid var(--stroke2);background:var(--glass2);color:var(--ink);padding:9px 17px;border-radius:99px;
+  transition:.24s;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);display:inline-block}
+.btn:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3);transform:translateY(-1px)}
+.btn.pri{background:linear-gradient(135deg,var(--blue),#1B4FD8);border-color:transparent;
+  box-shadow:0 8px 26px -8px rgba(46,107,255,.7),inset 0 1px 0 rgba(255,255,255,.24)}
+
+/* glass */
+.glass{background:var(--glass);border:1px solid var(--stroke);border-radius:var(--r);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  box-shadow:0 24px 60px -30px rgba(0,0,0,.9),inset 0 1px 0 var(--hi);position:relative;overflow:hidden}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(160deg,rgba(255,255,255,.07),transparent 44%)}
+.lift{transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s,border-color .4s}
+.lift:hover{transform:translateY(-4px);border-color:var(--stroke2);
+  box-shadow:0 34px 76px -30px rgba(0,0,0,.95),0 0 0 1px rgba(46,107,255,.16),inset 0 1px 0 var(--hi)}
+.lift::after{content:"";position:absolute;top:0;left:-60%;width:45%;height:100%;pointer-events:none;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.08),transparent);transition:left .85s cubic-bezier(.2,.8,.2,1)}
+.lift:hover::after{left:130%}
+
+/* type */
+h1,h2,h3{margin:0;letter-spacing:-.03em;font-weight:600}
+h1{font-size:clamp(38px,6.2vw,70px);line-height:1.02}
+h2{font-size:clamp(25px,3.3vw,38px);line-height:1.1;letter-spacing:-.028em}
+h3{font-size:15.5px;line-height:1.28;letter-spacing:-.015em}
+.grad{background:linear-gradient(104deg,#FFFFFF 8%,#C3D6FF 44%,var(--cyan) 98%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.kicker{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;color:var(--cyan);
+  margin:0 0 14px;display:flex;align-items:center;gap:10px}
+.kicker::before{content:"";width:24px;height:1px;background:linear-gradient(90deg,var(--cyan),transparent)}
+.lede{font-size:16px;color:var(--dim);line-height:1.6;margin:0}
+.lede b{color:var(--ink);font-weight:600}
+.tiny{font-size:11.5px;color:var(--dim2);line-height:1.5}
+p{margin:0 0 12px}
+
+/* hero */
+header{position:relative;padding:158px 0 76px;min-height:88vh;display:flex;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:9px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+  font-weight:700;color:#CFE0FF;background:var(--glass2);border:1px solid var(--stroke);border-radius:99px;
+  padding:8px 16px;margin-bottom:26px;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
+.badge i{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px var(--teal);animation:blip 2.4s ease-in-out infinite}
+@keyframes blip{0%,100%{opacity:.45;transform:scale(.8)}50%{opacity:1;transform:scale(1.25)}}
+header h1{margin-bottom:16px}
+.role{font-size:clamp(14.5px,1.9vw,17.5px);color:var(--dim);margin:0 0 30px}
+.role b{color:#DCE7FF;font-weight:600}
+.pitch{font-size:clamp(19px,2.7vw,28px);line-height:1.4;max-width:32ch;color:#E8EEFF;margin:0 0 20px;letter-spacing:-.022em}
+.pitch b{background:linear-gradient(100deg,var(--cyan),var(--blue2));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:600}
+.oneline{font-size:15.5px;color:var(--dim);max-width:52ch;margin:0 0 34px}
+.oneline b{color:#DCE7FF;font-weight:600}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+@media(max-width:700px){header{padding:126px 0 60px;min-height:auto}}
+
+/* metrics */
+.metrics{padding:0 0 74px}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(172px,1fr));gap:13px}
+.m{padding:20px 19px;border-radius:var(--rs)}
+.m .v{font-size:clamp(26px,3.1vw,35px);font-weight:600;letter-spacing:-.035em;line-height:1;font-variant-numeric:tabular-nums;
+  background:linear-gradient(150deg,#fff,#A9C6FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.m.up .v{background:linear-gradient(150deg,#8FF0D4,var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
+.m .l{font-size:11.5px;color:var(--dim);margin-top:10px;line-height:1.48}
+
+/* sections */
+section{padding:76px 0;position:relative}
+.shead{max-width:70ch;margin-bottom:34px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+@media(max-width:940px){.g2{grid-template-columns:1fr}}
+
+/* compact case cards */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.cs{padding:22px 23px;border-radius:var(--rs);display:flex;flex-direction:column}
+.cs .top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:11px}
+.cs .num{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);font-weight:700}
+.cs .cad{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim2);font-weight:700;white-space:nowrap}
+.cs h3{font-size:18px;letter-spacing:-.025em;margin-bottom:10px;line-height:1.2}
+.cs .what{font-size:13.8px;color:#C6D3EC;line-height:1.55;margin:0 0 14px;flex:1}
+.cs .line{display:flex;gap:10px;font-size:12.5px;line-height:1.5;padding:8px 0;border-top:1px solid var(--stroke)}
+.cs .line .lb{flex:0 0 66px;font-size:9px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;padding-top:3px}
+.cs .line.gd .lb{color:var(--rose)} .cs .line.gd .tx{color:#F0D6D9}
+.cs .line.out .lb{color:var(--teal)} .cs .line.out .tx{color:#D5F1E9}
+.cs.extra{background:linear-gradient(150deg,rgba(46,107,255,.13),rgba(255,255,255,.03));border-color:rgba(120,170,255,.26)}
+
+/* compact lists */
+.mini{padding:8px 24px;border-radius:var(--r)}
+.mrow{display:grid;grid-template-columns:30px 1fr;gap:13px;padding:13px 0;border-bottom:1px solid var(--stroke)}
+.mrow:last-child{border-bottom:0}
+.mrow .ic{font-size:17px;line-height:1.3;text-align:center}
+.mrow .n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--blue2);text-align:center;padding-top:3px}
+.mrow .t{font-size:14.5px;line-height:1.48;color:#E4EBFA;font-weight:500}
+.mrow .t b{color:#fff;font-weight:650}
+.mrow .t span{color:var(--dim);font-weight:400}
+
+/* skills */
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:16px}
+.sk{padding:21px 22px;border-radius:var(--rs)}
+.sk .cat{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--cyan);margin-bottom:13px}
+.sk p{margin:0;font-size:13px;line-height:1.65;color:#C4D1E9}
+
+/* mocks */
+.shell{padding:13px;border-radius:var(--r)}
+.frame{border-radius:11px;overflow:hidden;background:#fff;box-shadow:0 18px 44px -16px rgba(0,0,0,.75)}
+.frame .tb{display:flex;align-items:center;gap:7px;padding:9px 13px;background:#EEF1F6;border-bottom:1px solid #DFE4EC}
+.frame .tb i{width:9px;height:9px;border-radius:50%;background:#C9D0DC;display:block}
+.frame .tb .t{margin-left:9px;font-size:11px;color:#6B7488;font-weight:500}
+.gm{color:#111}
+.gm .row{display:flex;gap:10px;padding:6px 16px;font-size:11.5px;border-bottom:1px solid #F1F3F7;align-items:baseline}
+.gm .row .k{width:48px;color:#8A93A6;flex:0 0 48px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.gm .row.subj .v{font-weight:650;font-size:12.5px}
+.gm .chip{display:inline-block;background:#EAF1FE;border:1px solid #CCDDF9;color:#1D4ED8;border-radius:99px;padding:1px 8px;font-size:10px;margin-right:4px}
+.gm .dp{display:inline-block;background:#FFF1F0;border:1px solid #FBC9C4;color:#D0342C;border-radius:99px;
+  padding:2px 8px;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.gm .body{padding:14px 17px 16px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.5}
+.gm .body p{margin:0 0 8px;font-size:12px}
+.gm .send{padding:10px 16px;border-top:1px solid #EDEFF4;background:#F8FAFC;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.gm .send .b{background:#1D4ED8;color:#fff;border-radius:99px;padding:5px 16px;font-size:11.5px;font-weight:600}
+.gm .send .h{font-size:10.5px;color:#6B7488}
+.tblx{overflow-x:auto}
+table.inv{border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;margin:8px 0 3px}
+table.inv th{font-size:6.8pt;font-weight:700;background:#D5D9E0;padding:3px 6px;white-space:nowrap;text-align:left;color:#000}
+table.inv th.r{text-align:right}
+table.inv td{font-size:7.3pt;padding:2px 6px;white-space:nowrap}
+table.inv td.r{text-align:right}
+table.inv tr.grp td{font-weight:700}
+table.inv tr.tot td{font-weight:700;border-top:.6pt dashed #b8bec9}
+.rd{color:#d93025} .bk{color:#000}
+
+.dash{background:linear-gradient(180deg,#FFFFFF,#F6F9FE);border-radius:11px;padding:16px;color:#0F172A;
+  box-shadow:0 18px 44px -16px rgba(0,0,0,.75)}
+.dash .dtp{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:13px}
+.dash .dtp h4{margin:0;font-size:15px;font-weight:700;letter-spacing:-.015em}
+.dash .dtp .s{font-size:10.5px;color:#66748C;margin-top:3px}
+.dash h4{margin:0 0 12px;font-size:14px;font-weight:700;letter-spacing:-.015em}
+.seg{display:inline-flex;background:#EEF2F8;border:1px solid #DEE5F0;border-radius:99px;padding:3px;gap:2px}
+.seg b{font-size:10px;padding:4px 10px;border-radius:99px;font-weight:600;color:#5A6880}
+.seg b.on{background:#1D4ED8;color:#fff}
+.bento{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:9px;margin-bottom:9px}
+.kpi{background:#fff;border:1px solid #E3E9F2;border-radius:12px;padding:13px 14px}
+.kpi .l{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#66748C;font-weight:700}
+.kpi .n{font-size:21px;font-weight:700;letter-spacing:-.03em;margin-top:6px;font-variant-numeric:tabular-nums}
+.kpi .f{font-size:10px;margin-top:4px;color:#66748C}
+.kpi .wa{color:#C2740A;font-weight:650}
+.b2col{display:grid;grid-template-columns:1.6fr 1fr;gap:9px;margin-bottom:9px}
+@media(max-width:760px){.b2col{grid-template-columns:1fr}}
+.pnl{background:#fff;border:1px solid #E3E9F2;border-radius:12px;padding:13px 14px}
+.pnl .l{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#66748C;font-weight:700}
+.trk{position:relative;height:8px;background:#EDF1F7;border-radius:99px;margin:15px 0 7px}
+.trk .fl{height:100%;border-radius:99px;background:linear-gradient(90deg,#2E6BFF,#4FD8F5);width:0;
+  transition:width 1.6s cubic-bezier(.2,.8,.2,1)}
+.in .trk .fl{width:77%}
+.trk .nw{position:absolute;top:-5px;left:62%;width:2px;height:18px;background:#C0392B;border-radius:2px}
+.trk .nw b{position:absolute;top:-14px;left:-12px;font-size:8.5px;color:#C0392B;font-weight:700}
+.lg{display:flex;justify-content:space-between;font-size:10px;color:#66748C}
+.brk{font-size:11.5px;line-height:2;color:#4B586F;margin-top:8px}
+.brk b{color:#0F172A}
+table.acc{width:100%;border-collapse:collapse;font-size:10.5px;min-width:660px;margin-top:10px}
+table.acc th{text-align:left;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:#66748C;
+  padding:0 7px 7px;border-bottom:1px solid #E3E9F2;font-weight:700}
+table.acc td{padding:8px 7px;border-bottom:1px solid #F1F4F9;vertical-align:top}
+table.acc td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:650}
+.ql{font-size:10px;color:#4B586F;font-style:italic;margin-top:2px;line-height:1.45;display:block}
+.bdg{display:inline-block;border-radius:99px;padding:2px 8px;font-size:9px;font-weight:650;border:1px solid;white-space:nowrap}
+.b1{background:#EFFBF7;color:#0B7D62;border-color:#A7E4D3}
+.b2{background:#FEF2F2;color:#B03A2E;border-color:#F5C0BA}
+.b3{background:#FFFAEB;color:#A5670A;border-color:#F7DFA5}
+.b4{background:#EEF3FE;color:#1D4ED8;border-color:#C9DBFA}
+.bt{border:1px solid #CFD8E6;background:#fff;border-radius:7px;padding:3px 9px;font-size:9px;font-weight:600;color:#33415A;white-space:nowrap}
+.bt.off{color:#93A0B5;background:#F7F9FC}
+/* feature block for the dashboard */
+.feat{display:grid;grid-template-columns:1fr;gap:18px}
+.featnotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.fn{padding:16px 18px;border-radius:var(--rs)}
+.fn .cat{font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--cyan);margin-bottom:8px}
+.fn p{margin:0;font-size:12.8px;line-height:1.55;color:#C4D1E9}
+.fn p b{color:#fff;font-weight:600}
+.fn.g .cat{color:var(--teal)}
+.fn.r .cat{color:var(--rose)}
+
+.note{padding:17px 20px;border-radius:var(--rs);
+  background:linear-gradient(135deg,rgba(245,185,77,.10),rgba(245,185,77,.03));border:1px solid rgba(245,185,77,.26)}
+.note p{margin:0;font-size:12.5px;line-height:1.6;color:#F0DEBB}
+.note p b{color:#FFF0D2}
+.quote{font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.5;color:#D8E4FF;letter-spacing:-.01em}
+.callout{padding:20px 24px;border-radius:var(--rs);
+  background:linear-gradient(135deg,rgba(46,107,255,.14),rgba(79,216,245,.05));border:1px solid rgba(120,170,255,.22)}
+.callout p{margin:0;color:#DFE8FF;font-size:15px;line-height:1.6}
+.callout p b{color:#fff}
+
+/* footer */
+footer{padding:80px 0 60px}
+footer .card{padding:42px 44px;border-radius:24px;
+  background:linear-gradient(150deg,rgba(46,107,255,.18),rgba(79,216,245,.06) 55%,rgba(255,255,255,.03));
+  border:1px solid rgba(120,170,255,.24)}
+footer .cta{margin-top:26px}
+footer .fine{margin-top:30px;padding-top:20px;border-top:1px solid var(--stroke);font-size:11.5px;color:var(--dim2);line-height:1.7}
+footer .fine b{color:#B9C7E4}
+@media(max-width:700px){footer .card{padding:28px 22px}}
+
+/* scroll-driven backdrop: flowing contour lines + orbit rings */
+.flow{position:absolute;left:0;top:0;width:100%;height:200vh;will-change:transform}
+.flow path{fill:none;vector-effect:non-scaling-stroke}
+.flow .c{stroke:url(#fl-g);stroke-width:1;opacity:.16}
+.flow .c.s{opacity:.08}
+.flow2{position:absolute;left:0;top:0;width:100%;height:100vh}
+.flow2 path{fill:none;vector-effect:non-scaling-stroke}
+.flow2 .acc{stroke:url(#fl-a);stroke-width:1.4;opacity:.55;stroke-dasharray:1;stroke-dashoffset:1}
+.flow-dot{position:absolute;left:0;top:0;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;
+  background:#CFF6FF;box-shadow:0 0 12px 3px rgba(79,216,245,.65),0 0 34px 8px rgba(46,107,255,.35);will-change:transform;opacity:0;transition:opacity .6s}
+.flow-dot.on{opacity:.9}
+.orbit{position:absolute;right:-16vmin;top:14vh;width:62vmin;height:62vmin;will-change:transform;opacity:.6}
+.orbit i{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(160,195,255,.10)}
+.orbit i:nth-child(2){inset:11%;border-color:rgba(79,216,245,.10);border-style:dashed}
+.orbit i:nth-child(3){inset:24%;border-color:rgba(160,195,255,.08)}
+.orbit b{position:absolute;top:-3px;left:50%;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+@media(max-width:700px){.orbit{width:80vmin;height:80vmin;right:-34vmin}}
+
+/* flagship: monthly cash forecast */
+.flag-badge{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;
+  color:#D5F1E9;background:rgba(23,195,154,.12);border:1px solid rgba(23,195,154,.32);border-radius:99px;padding:5px 12px;margin-bottom:16px}
+.flag-badge i{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px var(--teal);animation:blip 2.4s ease-in-out infinite}
+.ba{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:13px;margin-bottom:13px}
+.ba .m .v{font-size:clamp(25px,2.9vw,33px)}
+.ba .m .was{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--dim2);margin-bottom:10px}
+.ba2{display:grid;grid-template-columns:repeat(auto-fit,minmax(172px,1fr));gap:13px;margin-bottom:26px}
+.ba2 .m{padding:15px 17px}
+.ba2 .m .v{font-size:clamp(20px,2.2vw,25px)}
+.chart{padding:20px 20px 14px;border-radius:var(--r)}
+.chart .ct{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.chart .ct b{font-size:14px;font-weight:600;letter-spacing:-.015em}
+.chart .lgd{display:flex;gap:14px;font-size:10.5px;color:var(--dim);flex-wrap:wrap}
+.chart .lgd span{display:inline-flex;align-items:center;gap:6px}
+.chart .lgd i{width:14px;height:2px;border-radius:2px;display:block}
+.chart svg{width:100%;height:auto;display:block}
+.chart .ln{fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;
+  transition:stroke-dashoffset 1.9s cubic-bezier(.2,.8,.2,1)}
+.chart.in .ln{stroke-dashoffset:0}
+.chart.in .ln.t{transition-delay:.35s}
+.chart .pt{opacity:0;transition:opacity .5s ease 1.5s}
+.chart.in .pt{opacity:1}
+.chart text{font-family:var(--sans);font-size:10px;fill:#7F8DAB}
+.pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 18px}
+@media(max-width:760px){.pipe{grid-template-columns:repeat(2,1fr)}}
+.st{padding:14px 14px 13px;border-radius:var(--rs)}
+.st .k{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.14em;color:var(--blue2)}
+.st h4{margin:6px 0 6px;font-size:13.5px;font-weight:600;letter-spacing:-.015em;line-height:1.25}
+.st p{margin:0 0 10px;font-size:11.5px;line-height:1.45;color:#B8C6E2}
+.mrow .t .tag{margin-top:6px}
+.tag{display:inline-block;font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;border-radius:99px;padding:2px 8px;border:1px solid;margin:0 3px 3px 0}
+.tag.code{color:#BFD3FF;border-color:rgba(120,170,255,.35);background:rgba(46,107,255,.10)}
+.tag.ai{color:#BDF3FF;border-color:rgba(79,216,245,.35);background:rgba(79,216,245,.08)}
+.tag.hu{color:#FFD9DD;border-color:rgba(255,110,126,.38);background:rgba(255,110,126,.09)}
+.st.me{background:linear-gradient(150deg,rgba(255,110,126,.11),rgba(255,255,255,.03));border-color:rgba(255,110,126,.28)}
+.st.gd{background:linear-gradient(150deg,rgba(23,195,154,.11),rgba(255,255,255,.03));border-color:rgba(23,195,154,.28)}
+@media(max-width:700px){.chart{padding:16px 12px 10px}}
+@media (prefers-reduced-motion:reduce){.chart .ln{stroke-dashoffset:0!important;transition:none}.chart .pt{opacity:1}.flag-badge i{animation:none}}
+@media print{.flow2,.flow,.flow-dot,.orbit{display:none!important}.chart .ln{stroke-dashoffset:0!important}.chart .pt{opacity:1!important}.st,.chart,.ba .m{page-break-inside:avoid}}
+
+/* v3: visual blocks for the flagship */
+.hbar{margin:12px 0 2px;display:grid;gap:5px}
+.hbar div{display:grid;grid-template-columns:38px 1fr;gap:8px;align-items:center;font-size:10px;color:var(--dim)}
+.hbar s{display:block;height:5px;border-radius:99px;text-decoration:none;width:0;transition:width 1.4s cubic-bezier(.2,.8,.2,1) .3s}
+.hbar .b0 s{background:linear-gradient(90deg,rgba(255,138,151,.85),rgba(255,138,151,.45))}
+.hbar .b1 s{background:linear-gradient(90deg,var(--teal),var(--cyan))}
+.in .hbar .b0 s{width:100%}.in .hbar .b1 s{width:24%}
+.math{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:14px;margin-bottom:12px}
+@media(max-width:940px){.math{grid-template-columns:1fr}}
+.mc{padding:18px 19px;border-radius:var(--rs)}
+.mc .cat{font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--cyan);margin-bottom:6px}
+.mc h4{margin:0 0 8px;font-size:16px;font-weight:600;letter-spacing:-.02em;line-height:1.25}
+.mc p{margin:0;font-size:12.5px;line-height:1.5;color:#C4D1E9}
+.mc svg{width:100%;max-width:360px;height:auto;display:block;margin:4px auto 10px}
+.hl{color:#9FE6FF}
+.mc svg text{font-family:var(--sans);font-size:10px;fill:#8A98B6}
+.mc .bar{transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);transition:transform 1.1s cubic-bezier(.2,.8,.2,1)}
+.mc.in .bar{transform:scaleY(1)}
+.cal{display:grid;gap:9px;margin:6px 0 12px}
+.cal div{display:grid;grid-template-columns:52px 1fr 34px;gap:8px;align-items:center;font-size:11px;color:var(--dim)}
+.cal i{display:block;height:7px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+.cal i s{display:block;height:100%;width:0;border-radius:99px;transition:width 1.3s cubic-bezier(.2,.8,.2,1) .2s}
+.cal b{color:#fff;font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip2{font-size:11px;color:#DCE7FF;border:1px solid var(--stroke2);background:var(--glass2);border-radius:99px;padding:5px 12px;white-space:nowrap}
+.chip2 b{color:var(--cyan);font-weight:600}
+.flowd{padding:26px 22px 20px;border-radius:var(--r);margin-bottom:12px}
+.fd{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;position:relative}
+.fd::before{content:"";position:absolute;top:19px;left:7%;right:7%;height:1px;
+  background:linear-gradient(90deg,rgba(90,147,255,.15),rgba(79,216,245,.6) 50%,rgba(23,195,154,.5));transform-origin:left;transform:scaleX(0);transition:transform 1.6s cubic-bezier(.2,.8,.2,1)}
+.flowd.in .fd::before{transform:scaleX(1)}
+.nd{text-align:center;position:relative}
+.nd .o{width:38px;height:38px;margin:0 auto 10px;border-radius:50%;display:grid;place-items:center;font-family:var(--mono);font-size:10.5px;font-weight:700;
+  background:#0A1226;border:1px solid rgba(120,170,255,.45);color:#CFE0FF;box-shadow:0 0 0 4px rgba(4,7,15,.9)}
+.nd.ai .o{border-color:rgba(79,216,245,.6);color:#BDF3FF;box-shadow:0 0 0 4px rgba(4,7,15,.9),0 0 16px -2px rgba(79,216,245,.5)}
+.nd.hu .o{border-color:rgba(255,110,126,.7);color:#FFD9DD;background:rgba(255,110,126,.12);box-shadow:0 0 0 4px rgba(4,7,15,.9),0 0 18px -2px rgba(255,110,126,.55)}
+.nd.gd .o{border-color:rgba(23,195,154,.7);color:#C9F5E8;box-shadow:0 0 0 4px rgba(4,7,15,.9),0 0 16px -2px rgba(23,195,154,.5)}
+.nd b{display:block;font-size:12.5px;font-weight:600;letter-spacing:-.01em;margin-bottom:3px}
+.nd span{display:block;font-size:10.5px;color:var(--dim);line-height:1.35}
+.loop{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:20px;padding-top:16px;border-top:1px dashed var(--stroke2)}
+.loop .lt{font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--teal);white-space:nowrap}
+.key{display:flex;gap:14px;flex-wrap:wrap;font-size:10.5px;color:var(--dim);margin-bottom:18px}
+.key span{display:inline-flex;align-items:center;gap:6px}
+.key i{width:9px;height:9px;border-radius:50%;border:1px solid;display:block}
+@media(max-width:760px){.fd{grid-template-columns:repeat(2,1fr);row-gap:18px}.fd::before{display:none}}
+.ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.ct2{padding:14px 15px;border-radius:var(--rs);display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.ct2 .ic{font-size:17px;line-height:1.2}
+.ct2 b{display:block;font-size:13px;font-weight:600;letter-spacing:-.01em;margin-bottom:2px}
+.ct2 span{display:block;font-size:11.5px;color:var(--dim);line-height:1.4}
+@media (prefers-reduced-motion:reduce){.hbar s,.cal i s,.mc .bar,.fd::before{transition:none!important}}
+@media print{.in .hbar s,.hbar .b0 s{width:100%}.hbar .b1 s{width:24%!important}.mc .bar{transform:none!important}.fd::before{transform:none!important}.flowd,.mc,.ct2{page-break-inside:avoid}}
+
+.in .cal i s{width:var(--w)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(24px) scale(.986);filter:blur(6px);
+  transition:opacity .76s cubic-bezier(.2,.8,.2,1),transform .76s cubic-bezier(.2,.8,.2,1),filter .76s}
+.rv.in{opacity:1;transform:none;filter:blur(0)}
+.rv.d1{transition-delay:.07s}.rv.d2{transition-delay:.14s}.rv.d3{transition-delay:.21s}
+.rv.d4{transition-delay:.28s}.rv.d5{transition-delay:.35s}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important;filter:none!important}.aur,.mote{animation:none}}
+
+@media print{
+  nav,#prog,.mote,footer .cta{display:none!important}
+  html,body{background:#04070F!important}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  .bgfx{position:absolute;height:100%}
+  .rv{opacity:1!important;transform:none!important;filter:none!important}
+  header{min-height:auto;padding:44px 0 30px}
+  section{padding:30px 0;page-break-inside:avoid}
+  .cs,.sk,.m{page-break-inside:avoid}
+  .glass{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(255,255,255,.06)}
+}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+<div class="bgfx">
+  <div class="gridl"></div>
+  <div class="aur a1"></div><div class="aur a2"></div><div class="aur a3"></div>
+  <div class="grain"></div>
+  <svg class="flow" id="flow" viewBox="0 0 1440 1800" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="fl-g" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#4FD8F5" stop-opacity="0"/><stop offset=".35" stop-color="#5A93FF"/><stop offset=".7" stop-color="#4FD8F5"/><stop offset="1" stop-color="#17C39A" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="fl-a" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#2E6BFF" stop-opacity="0"/><stop offset=".25" stop-color="#5A93FF"/><stop offset=".8" stop-color="#4FD8F5"/><stop offset="1" stop-color="#17C39A"/>
+      </linearGradient>
+    </defs>
+    <path class="c"   d="M-40 210 C 240 120, 470 330, 760 230 S 1220 110, 1480 210"/>
+    <path class="c s" d="M-40 260 C 260 170, 480 380, 770 280 S 1230 160, 1480 260"/>
+    <path class="c"   d="M-40 560 C 300 650, 540 430, 820 520 S 1260 690, 1480 560"/>
+    <path class="c s" d="M-40 610 C 310 700, 550 480, 830 570 S 1270 740, 1480 610"/>
+    <path class="c"   d="M-40 930 C 220 840, 520 1040, 790 950 S 1210 820, 1480 930"/>
+    <path class="c s" d="M-40 1290 C 280 1380, 560 1180, 840 1270 S 1240 1410, 1480 1290"/>
+    <path class="c"   d="M-40 1340 C 290 1430, 570 1230, 850 1320 S 1250 1460, 1480 1340"/>
+    <path class="c s" d="M-40 1640 C 240 1560, 500 1740, 780 1650 S 1220 1540, 1480 1640"/>
+  </svg>
+  <svg class="flow2" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+    <path class="acc" id="flow-acc" pathLength="1" d="M-40 830 C 200 810, 330 650, 490 610 S 730 530, 870 410 S 1100 260, 1220 215 S 1390 150, 1480 128"/>
+  </svg>
+  <div class="flow-dot" id="flow-dot"></div>
+  <div class="orbit" id="orbit"><i></i><i></i><i></i><b></b></div>
+  <div class="mote" style="left:12%;top:90%;width:3px;height:3px;animation-duration:20s"></div>
+  <div class="mote" style="left:34%;top:95%;width:2px;height:2px;animation-duration:25s;animation-delay:4s"></div>
+  <div class="mote" style="left:62%;top:92%;width:3px;height:3px;animation-duration:22s;animation-delay:8s"></div>
+  <div class="mote" style="left:84%;top:96%;width:2px;height:2px;animation-duration:27s;animation-delay:2s"></div>
+</div>
+
+<nav id="nav">
+  <div class="bar">
+    <div class="who">Alberto Cacho <i>· AI Automation Portfolio</i></div>
+    <button class="btn" onclick="window.print()">Save as PDF</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header>
+  <div class="wrap">
+    <div class="badge rv in"><i></i> Finance Strategy &amp; Operations · FP&amp;A · AI Automation</div>
+    <h1 class="rv in"><span class="grad">Alberto Cacho</span></h1>
+    <p class="role rv in d1"><b>Sr. Collector &amp; B2B Finance Operations Lead</b> — DDFB Unit, DoorDash · Mexico City</p>
+    <p class="pitch rv in d2">I automate finance operations end to end — and I design <b>where the automation has to stop and ask a human.</b></p>
+    <p class="oneline rv in d3">Six recurring processes, now running as tools across a portfolio of <b>~2,500 enterprise accounts</b>. The largest, a <b>monthly cash forecast run by a multi-agent system</b>, now fills itself, and I review only the exceptions.</p>
+    <div class="cta rv in d4">
+      <a class="btn pri" href="https://www.linkedin.com/in/albertocacho/" target="_blank" rel="noopener">linkedin.com/in/albertocacho</a>
+      <a class="btn" href="mailto:alberto.lcacho@hotmail.com">alberto.lcacho@hotmail.com</a>
+      <a class="btn" href="tel:+525635499199">+52 56 3549 9199</a>
+    </div>
+  </div>
+</header>
+
+<!-- METRICS -->
+<div class="metrics">
+  <div class="wrap">
+    <div class="mgrid">
+      <div class="m glass lift rv up" data-count="93" data-pre="−" data-suf="%"><div class="v">−0%</div><div class="l">overdue balances across the business unit</div></div>
+      <div class="m glass lift rv d1 up" data-count="45" data-pre="+" data-suf="%"><div class="v">+0%</div><div class="l">forecast accuracy</div></div>
+      <div class="m glass lift rv d2"><div class="v" style="font-size:clamp(19px,2.1vw,24px)">2.5 wks → 5 days</div><div class="l">AR communication cycle</div></div>
+      <div class="m glass lift rv d3" data-count="100" data-suf="+"><div class="v">0+</div><div class="l">accounts contacted in one sitting, monthly</div></div>
+      <div class="m glass lift rv d4" data-count="20" data-pre="~$" data-suf="M"><div class="v">~$0M</div><div class="l">open AR reconciled in a pipeline migration</div></div>
+      <div class="m glass lift rv d5"><div class="v">0</div><div class="l">customer-facing outputs sent unreviewed</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- FLAGSHIP — MONTHLY CASH FORECAST -->
+<section id="forecast" style="padding-top:20px">
+  <div class="wrap">
+    <div class="shead rv" style="max-width:76ch">
+      <div class="flag-badge"><i></i> Flagship · live in production since Nov 2026</div>
+      <p class="kicker">Case 00 · Monthly Cash Forecast</p>
+      <h2>A forecast that <span class="grad">fills itself</span> — and knows when to ask</h2>
+      <p class="lede" style="margin-top:14px">Every month, each leader of business unit predicts <b>when every open invoice will be paid</b> — this month, next month or the one after — inside one shared, live spreadsheet that feeds an eight-figure cash forecast. I rebuilt my part of it as a multi-agent system: it reads payments, terms and customer emails, proposes every cell with a reason, and writes only after I approve. My job moved from <b>filling &gt;3,700 invoice rows</b> to reviewing the accounts where my judgment changes the answer.</p>
+    </div>
+
+    <div class="ba">
+      <div class="m glass lift rv up"><div class="was">Hands-on time per cycle</div><div class="v">~8 h → &lt;2 h</div>
+        <div class="hbar"><div class="b0">Before<s></s></div><div class="b1">Now<s></s></div></div>
+        <div class="l"><b style="color:#DCE7FF">−75%</b> in the first live month</div></div>
+      <div class="m glass lift rv d1 up"><div class="was">Months a year on target</div><div class="v">≈3 → ≈7</div><div class="l">On target = cash collected within <b style="color:#DCE7FF">±5%</b> of the forecast. Backtest: 2 → 5 of 9 months.</div></div>
+      <div class="m glass lift rv d2 up"><div class="was">First out-of-sample month</div><div class="v">100.8%</div><div class="l">Collected ÷ forecast. Target 100–104%. My manual forecast: 102.7%.</div></div>
+      <div class="m glass lift rv d3"><div class="was">Cells written live</div><div class="v">26,900+</div><div class="l"><b style="color:#DCE7FF">0 outside my rows</b>, in a file ~20 people edit at once.</div></div>
+    </div>
+    <div class="ba2">
+      <div class="m glass rv"><div class="v">98%</div><div class="l">of dollars where the plan matched my final call</div></div>
+      <div class="m glass rv d1"><div class="v">103.4%</div><div class="l">9-month backtest, inside the target range</div></div>
+      <div class="m glass rv d2"><div class="v">93%</div><div class="l">worst month, above the 90% payout floor</div></div>
+      <div class="m glass rv d3"><div class="v">10 agents + me</div><div class="l">AI only where judgment is needed</div></div>
+    </div>
+
+    <div class="g2" style="margin-bottom:30px">
+      <div class="chart glass rv" id="fc-chart">
+        <div class="ct">
+          <b>Collected ÷ forecast, by month</b>
+          <div class="lgd"><span><i style="background:#FF8A97"></i>Manual (me)</span><span><i style="background:var(--cyan)"></i>The system</span><span><i style="background:rgba(23,195,154,.6);height:8px;border-radius:2px"></i>±5% band</span></div>
+        </div>
+        <svg viewBox="0 0 620 282" role="img" aria-label="Monthly collected versus forecast. Manual forecasts ran 101 to 122 percent; the system stayed between 93 and 116 percent, inside the plus or minus five percent band in five of nine months.">
+          <rect x="40" y="135" width="566" height="57.5" fill="rgba(23,195,154,.09)"/>
+          <rect x="40" y="140.8" width="566" height="23" fill="rgba(23,195,154,.10)"/>
+          <line x1="40" x2="606" y1="163.8" y2="163.8" stroke="rgba(23,195,154,.45)" stroke-width="1"/>
+          <line x1="40" x2="606" y1="221.2" y2="221.2" stroke="rgba(255,110,126,.55)" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="40" x2="606" y1="77.5" y2="77.5" stroke="rgba(255,255,255,.05)"/>
+          <line x1="40" x2="606" y1="20" y2="20" stroke="rgba(255,255,255,.05)"/>
+          <text x="34" y="23.5" text-anchor="end">125%</text>
+          <text x="34" y="81" text-anchor="end">115%</text>
+          <text x="34" y="167" text-anchor="end">100%</text>
+          <text x="34" y="224.5" text-anchor="end" style="fill:#FF9AA5">90%</text>
+          <text x="600" y="215" text-anchor="end" style="fill:#FF9AA5">payout floor</text>
+          <text x="48" y="131" text-anchor="start" style="fill:#7FDCC2">±5% accuracy band · target 100–104%</text>
+          <line x1="549" x2="549" y1="14" y2="252" stroke="rgba(255,255,255,.14)" stroke-dasharray="2 4"/>
+          <text x="578" y="12" text-anchor="middle" style="fill:#BDF3FF">Shadow</text>
+          <path class="ln" pathLength="1" stroke="#FF8A97" d="M56,98.2 L114,67.2 L172,157.4 L230,54.5 L288,35.5 L346,155.7 L404,104.5 L462,106.8 L520,38.4 L578,148.2"/>
+          <path class="ln t" pathLength="1" stroke="#4FD8F5" d="M56,143.1 L114,116.6 L172,187.9 L230,161.4 L288,108.6 L346,204 L404,174.1 L462,140.8 L520,74.1 L578,159.2"/>
+          <g class="pt" fill="#FF8A97"><circle cx="56" cy="98.2" r="3"/><circle cx="114" cy="67.2" r="3"/><circle cx="172" cy="157.4" r="3"/><circle cx="230" cy="54.5" r="3"/><circle cx="288" cy="35.5" r="3"/><circle cx="346" cy="155.7" r="3"/><circle cx="404" cy="104.5" r="3"/><circle cx="462" cy="106.8" r="3"/><circle cx="520" cy="38.4" r="3"/><circle cx="578" cy="148.2" r="3"/></g>
+          <g class="pt" fill="#4FD8F5"><circle cx="56" cy="143.1" r="3.4"/><circle cx="114" cy="116.6" r="3.4"/><circle cx="172" cy="187.9" r="3.4"/><circle cx="230" cy="161.4" r="3.4"/><circle cx="288" cy="108.6" r="3.4"/><circle cx="346" cy="204" r="3.4"/><circle cx="404" cy="174.1" r="3.4"/><circle cx="462" cy="140.8" r="3.4"/><circle cx="520" cy="74.1" r="3.4"/><circle cx="578" cy="159.2" r="4.4" stroke="#fff" stroke-width="1.2"/></g>
+          <text x="56" y="272" text-anchor="middle">Dec</text><text x="114" y="272" text-anchor="middle">Jan</text><text x="172" y="272" text-anchor="middle">Feb</text><text x="230" y="272" text-anchor="middle">Mar</text><text x="288" y="272" text-anchor="middle">Apr</text><text x="346" y="272" text-anchor="middle">May</text><text x="404" y="272" text-anchor="middle">Jun</text><text x="462" y="272" text-anchor="middle">Jul</text><text x="520" y="272" text-anchor="middle">Aug</text><text x="578" y="272" text-anchor="middle" style="fill:#BDF3FF">Oct</text>
+        </svg>
+        <p class="tiny" style="margin:6px 2px 0">Dec–Aug: backtest, no look-ahead. Oct: side by side with my manual forecast. Nov: first live month, closes at month-end.</p>
+      </div>
+      <div>
+        <div class="fn glass rv d1">
+          <div class="cat">The problem I found first</div>
+          <p>I hit the collection target every month, but missed the accuracy goal in <b>7 of 9</b> months. I was collecting ~113% of what I forecast. It felt safe, and it was wrong.</p>
+        </div>
+        <div class="fn glass rv d2" style="margin-top:14px">
+          <div class="cat">The real goal</div>
+          <p>Forecasting high can cost most of the payout; forecasting low only costs the bonus. So the target isn't "perfect", it's <b>100–104%</b>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="shead rv" style="margin-bottom:16px">
+      <p class="kicker">The math underneath</p>
+      <h3 style="font-size:20px">Two classic ideas: <span class="hl">survival analysis</span> for timing, the <span class="hl">newsvendor problem</span> for the total</h3>
+    </div>
+    <div class="math">
+      <div class="mc glass rv">
+        <div class="cat">When will it pay?</div>
+        <svg viewBox="0 0 300 140" aria-label="Illustrative odds for one open invoice: 22% this month, 61% next month, 12% the month after; it is assigned to next month because it clears the 35% bar.">
+          <line x1="20" x2="290" y1="118" y2="118" stroke="rgba(255,255,255,.12)"/>
+          <line x1="20" x2="290" y1="83" y2="83" stroke="rgba(255,110,126,.55)" stroke-dasharray="4 4"/>
+          <text x="290" y="78" text-anchor="end" style="fill:#FF9AA5">35% bar</text>
+          <rect class="bar" x="42" y="96" width="46" height="22" rx="4" fill="rgba(120,170,255,.35)"/>
+          <rect class="bar" x="127" y="57" width="46" height="61" rx="4" fill="url(#mc-g)"/>
+          <rect class="bar" x="212" y="106" width="46" height="12" rx="4" fill="rgba(120,170,255,.35)"/>
+          <defs><linearGradient id="mc-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4FD8F5"/><stop offset="1" stop-color="#2E6BFF"/></linearGradient></defs>
+          <text x="65" y="90" text-anchor="middle">22%</text><text x="150" y="51" text-anchor="middle" style="fill:#BDF3FF;font-weight:600">61%</text><text x="235" y="100" text-anchor="middle">12%</text>
+          <text x="65" y="133" text-anchor="middle">This month</text><text x="150" y="133" text-anchor="middle" style="fill:#DCE7FF">Next month</text><text x="235" y="133" text-anchor="middle">Month after</text>
+        </svg>
+        <p><b style="color:#fff">Survival analysis</b>, as in credit risk: each customer's history gives the odds an open invoice pays in each month. It goes to the likeliest one.</p>
+      </div>
+      <div class="mc glass rv d1">
+        <div class="cat">How much to commit?</div>
+        <svg viewBox="0 0 300 120" aria-label="Distribution of possible collections; the commitment sits a little below the expected value.">
+          <path d="M14 100 C 80 100, 104 22, 150 22 S 220 100, 286 100" fill="rgba(90,147,255,.10)" stroke="rgba(120,170,255,.55)" stroke-width="1.5"/>
+          <line x1="150" x2="150" y1="16" y2="100" stroke="rgba(255,255,255,.35)" stroke-dasharray="3 4"/>
+          <line class="bar" x1="124" x2="124" y1="30" y2="100" stroke="#4FD8F5" stroke-width="2.2"/>
+          <circle cx="124" cy="30" r="3.5" fill="#4FD8F5"/>
+          <text x="156" y="14" style="fill:#A3B0CB">expected</text>
+          <text x="118" y="24" text-anchor="end" style="fill:#BDF3FF;font-weight:600">commit</text>
+          <line x1="14" x2="286" y1="100" y2="100" stroke="rgba(255,255,255,.12)"/>
+          <text x="20" y="116">under: lose the bonus</text><text x="282" y="116" text-anchor="end" style="fill:#FF9AA5">over: lose the payout</text>
+        </svg>
+        <p>When overshooting costs more than undershooting, the best bet sits below the average, as in the <b style="color:#fff">newsvendor problem</b>. A 5% cushion moves the least likely invoices out first.</p>
+      </div>
+      <div class="mc glass rv d2">
+        <div class="cat">Do the labels mean anything?</div>
+        <div class="cal">
+          <div>Low<i><s style="--w:89%;background:linear-gradient(90deg,var(--teal),var(--cyan))"></s></i><b>89%</b></div>
+          <div>Medium<i><s style="--w:76%;background:linear-gradient(90deg,var(--blue),var(--blue2))"></s></i><b>76%</b></div>
+          <div>High<i><s style="--w:11%;background:rgba(255,138,151,.8)"></s></i><b>11%</b></div>
+        </div>
+        <p>Share actually collected per risk label, Dec–Oct. Every month is scored only with data that existed before it.</p>
+      </div>
+    </div>
+    <div class="chips rv" style="margin-bottom:34px"><span class="chip2"><b>Next</b> · Monte Carlo simulation of the month, in shadow first</span></div>
+
+    <div class="shead rv" style="margin-bottom:14px">
+      <p class="kicker">How it runs</p>
+      <h3 style="font-size:20px">Ten agents, one human gate</h3>
+    </div>
+    <div class="flowd glass rv">
+      <div class="key"><span><i style="border-color:rgba(120,170,255,.7)"></i>Code / SQL</span><span><i style="border-color:rgba(79,216,245,.8);box-shadow:0 0 8px rgba(79,216,245,.6)"></i>AI</span><span><i style="border-color:rgba(255,110,126,.9);background:rgba(255,110,126,.2)"></i>Me</span><span><i style="border-color:rgba(23,195,154,.9)"></i>Control, no AI</span></div>
+      <div class="fd">
+        <div class="nd"><div class="o">01</div><b>Watch</b><span>File opens, integrity checks</span></div>
+        <div class="nd"><div class="o">02</div><b>Collect</b><span>Invoice-level SQL on the AR ledger</span></div>
+        <div class="nd ai"><div class="o">03</div><b>Forecast</b><span>Odds engine + rules</span></div>
+        <div class="nd ai"><div class="o">04</div><b>Challenge</b><span>A second model grades every account</span></div>
+        <div class="nd hu"><div class="o">05</div><b>I decide</b><span>Amber and red only · one approval</span></div>
+        <div class="nd gd"><div class="o">06</div><b>Guardian</b><span>Can veto any write</span></div>
+        <div class="nd gd"><div class="o">07</div><b>Write</b><span>Cell by cell, re-read, logged</span></div>
+      </div>
+      <div class="loop">
+        <span class="lt">↺ Learning loop</span>
+        <span class="chip2"><b>08</b> Payment monitor · weekly</span>
+        <span class="chip2"><b>09</b> Post-mortem · month-end</span>
+        <span class="chip2"><b>10</b> Rule review · quarterly</span>
+        <span class="chip2"><b>11</b> Decision analyst · rolling out</span>
+      </div>
+    </div>
+    <p class="tiny rv" style="margin:0 0 30px">Every correction I make is logged and becomes a proposed rule, tested against my final version before it goes live.</p>
+
+    <div class="shead rv" style="margin-bottom:14px">
+      <p class="kicker">Control &amp; audit</p>
+      <h3 style="font-size:20px">Built the way an auditor would ask for it</h3>
+    </div>
+    <div class="ctl">
+      <div class="ct2 glass rv"><div class="ic">🧱</div><div><b>Segregation of duties</b><span>The reader can't write. Writer and guardian are separate.</span></div></div>
+      <div class="ct2 glass rv d1"><div class="ic">🔐</div><div><b>Approval tied to content</b><span>Change one cell and the approval code changes.</span></div></div>
+      <div class="ct2 glass rv d2"><div class="ic">🧾</div><div><b>Cell-level audit trail</b><span>Old value, new value, time and batch.</span></div></div>
+      <div class="ct2 glass rv d3"><div class="ic">🧊</div><div><b>Frozen inputs</b><span>Checksummed, so every number traces to its data.</span></div></div>
+      <div class="ct2 glass rv"><div class="ic">🧬</div><div><b>Structure by fingerprint</b><span>Not by header names. If the layout moves, it stops.</span></div></div>
+      <div class="ct2 glass rv d1"><div class="ic">✅</div><div><b>Validation gates</b><span>No empty cells, one month per invoice, notes required.</span></div></div>
+      <div class="ct2 glass rv d2"><div class="ic">💵</div><div><b>Ties out to the dollar</b><span>Collections reconciled to the warehouse.</span></div></div>
+      <div class="ct2 glass rv d3"><div class="ic">🧪</div><div><b>Tested like software</b><span>Simulated collectors editing a copy before the first live write.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- THE WORK -->
+<section id="work">
+  <div class="wrap">
+    <div class="shead rv">
+      <p class="kicker">The work</p>
+      <h2>Five more processes, <span class="grad">in production</span></h2>
+      <p class="lede" style="margin-top:14px">Each one is a written procedure an AI agent runs end to end, with the arithmetic proven first.</p>
+    </div>
+
+    <div class="cases">
+      <div class="cs glass lift rv">
+        <div class="top"><span class="num">01</span><span class="cad">Monthly</span></div>
+        <h3>Monthly AR Communications</h3>
+        <p class="what">One collection email per forecast account: the right template, clean recipients and an invoice table rendered from data.</p>
+        <div class="line gd"><span class="lb">Guardrail</span><span class="tx">Balances reconcile to the cent before a draft exists. Credit balances are never chased.</span></div>
+        <div class="line out"><span class="lb">Outcome</span><span class="tx">100+ accounts in one sitting; week one freed for negotiations.</span></div>
+      </div>
+
+      <div class="cs glass lift rv d1">
+        <div class="top"><span class="num">02</span><span class="cad">Continuous</span></div>
+        <h3>Forecast Tracking</h3>
+        <p class="what">Reads the money from the forecast and the <i>reason</i> from the customer's own replies: 13 blocker types, each with a quote and a link.</p>
+        <div class="line gd"><span class="lb">Guardrail</span><span class="tx">Never sends or drafts on its own. Won't publish from an incomplete read.</span></div>
+        <div class="line out"><span class="lb">Outcome</span><span class="tx">"Still unpaid" becomes a named, evidenced reason.</span></div>
+      </div>
+
+      <div class="cs glass lift rv d2">
+        <div class="top"><span class="num">03</span><span class="cad">Weekly</span></div>
+        <h3>Weekly Deactivation Report</h3>
+        <p class="what">Ranks the worst-paying accounts by 60+ day exposure, groups them by owner and carries <b>last week's commentary</b> forward.</p>
+        <div class="line gd"><span class="lb">Guardrail</span><span class="tx">Never invents commentary. Asks when an owner is unknown.</span></div>
+        <div class="line out"><span class="lb">Outcome</span><span class="tx">A weekly report nobody rebuilds.</span></div>
+      </div>
+
+      <div class="cs glass lift rv d3">
+        <div class="top"><span class="num">04</span><span class="cad">Scheduled weekly</span></div>
+        <h3>Ticket Triage &amp; Distribution</h3>
+        <p class="what">Reads every ticket over five days old, classifies it into 13 request types and splits the queue evenly across the team.</p>
+        <div class="line gd"><span class="lb">Guardrail</span><span class="tx">Prepares everything, then stops for my approval.</span></div>
+        <div class="line out"><span class="lb">Outcome</span><span class="tx">The queue stopped aging: one report instead of thirty tickets.</span></div>
+      </div>
+
+      <div class="cs glass lift rv d4">
+        <div class="top"><span class="num">05</span><span class="cad">On demand</span></div>
+        <h3>Manual Tax Invoices — AU GST</h3>
+        <p class="what">Manual tax invoices where the tax must be right before the document leaves: rules written once, then computed.</p>
+        <div class="line gd"><span class="lb">Guardrail</span><span class="tx">No tax ID, no document. The math must close first.</span></div>
+        <div class="line out"><span class="lb">Outcome</span><span class="tx">No corrections, no credit-and-rebill.</span></div>
+      </div>
+
+      <div class="cs glass lift rv d5 extra">
+        <div class="top"><span class="num">Also delivered</span><span class="cad">AI Integration Analyst</span></div>
+        <h3>AI Voice Agent for Collections</h3>
+        <p class="what">An AI voice agent for outbound calls on the high-volume, low-balance segment, integrated with ticketing.</p>
+        <div class="line out"><span class="lb">Outcome</span><span class="tx">Coverage for a segment with almost no contact before, with no new headcount.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section id="proof">
+  <div class="wrap">
+    <div class="shead rv">
+      <p class="kicker">Case 01 in depth · Monthly AR Communications</p>
+      <h2>A collection email, <span class="grad">generated and reconciled</span></h2>
+      <p class="lede" style="margin-top:14px">Nothing typed or pasted: recipients, balances and invoice rows all come from the query.</p>
+    </div>
+
+    <div class="g2">
+      <div class="rv">
+        <div class="shell glass">
+          <div class="frame">
+            <div class="tb"><i></i><i></i><i></i><span class="t">Draft — prepared, not sent</span></div>
+            <div class="gm">
+              <div class="row"><div class="k">To</div><div class="v"><span class="chip">accounts.payable@client-a.example</span> <span class="dp">Draft</span></div></div>
+              <div class="row subj"><div class="k">Subject</div><div class="v">Client A — Enterprise account · August statement</div></div>
+              <div class="body">
+                <p>Hello, team.</p>
+                <p>I would like to send a friendly reminder of the open balance we have in the account:</p>
+                <p style="margin-bottom:10px">
+                  <strong>Open AR Balance (USD):</strong> <span style="color:#000">$38,920.78</span><br>
+                  <strong>Current (Not Due):</strong> <span style="color:#000">$5,361.71</span><br>
+                  <strong>Past Due:</strong> <span style="color:#d93025">$33,559.07</span>
+                </p>
+                <div class="tblx">
+                  <table class="inv">
+                    <thead><tr><th>Client</th><th>Type</th><th>Document</th><th>Due Date</th><th class="r">Age</th><th class="r">Open Balance</th></tr></thead>
+                    <tbody>
+                      <tr class="grp"><td colspan="2">Client A — Enterprise account</td><td colspan="4"></td></tr>
+                      <tr><td></td><td class="rd">Invoice</td><td class="rd">INV-0002</td><td class="rd">1/30/2026</td><td class="r rd">163</td><td class="r rd">$4,568.76</td></tr>
+                      <tr><td></td><td class="rd">Invoice</td><td class="rd">INV-0003</td><td class="rd">3/2/2026</td><td class="r rd">132</td><td class="r rd">$5,855.26</td></tr>
+                      <tr><td></td><td class="rd">Invoice</td><td class="rd">INV-0005</td><td class="rd">4/30/2026</td><td class="r rd">73</td><td class="r rd">$6,118.35</td></tr>
+                      <tr><td></td><td class="rd">Invoice</td><td class="rd">INV-0006</td><td class="rd">5/30/2026</td><td class="r rd">43</td><td class="r rd">$6,171.82</td></tr>
+                      <tr><td></td><td class="rd">Invoice</td><td class="rd">INV-0007</td><td class="rd">6/30/2026</td><td class="r rd">12</td><td class="r rd">$5,631.88</td></tr>
+                      <tr><td></td><td class="bk">Invoice</td><td class="bk">INV-0008</td><td class="bk">7/30/2026</td><td class="r bk">-18</td><td class="r bk">$5,361.71</td></tr>
+                      <tr class="tot"><td colspan="4">Total</td><td></td><td class="r">$38,920.78</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p style="margin-top:10px">Would you be so kind as to confirm the expected payment date of the overdue balance?</p>
+                <p style="margin-bottom:0">Thank you and have a great day ahead!</p>
+              </div>
+              <div class="send"><span class="b">Send</span><span class="h">Nothing sends itself.</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="tiny" style="margin-top:11px">Overdue lines in red, the not-yet-due line in black.</p>
+      </div>
+
+      <div class="rv d1">
+        <div class="fn glass">
+          <div class="cat">Why this one is safe to send</div>
+          <p>Summary and table come from the same query, so they <b>can't disagree</b>. If a balance doesn't reconcile, no draft is created.</p>
+        </div>
+        <div class="fn glass r" style="margin-top:14px">
+          <div class="cat">Where I stay in control</div>
+          <p>No signature until I review it. <b>Nothing sends itself.</b></p>
+        </div>
+        <div class="note" style="margin-top:14px">
+          <p><b>Everything here is anonymised.</b> Synthetic data; the structures and validation logic are real.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORECAST TRACKING — FEATURED -->
+<section id="dashboard">
+  <div class="wrap">
+    <div class="shead rv">
+      <p class="kicker">Case 02 in depth · Forecast Tracking</p>
+      <h2>The dashboard <span class="grad">I actually open</span></h2>
+      <p class="lede" style="margin-top:14px">The money reads live on every open. The <b>reason</b> under each open account comes from the customer's own replies.</p>
+    </div>
+
+    <div class="feat">
+      <div class="shell glass rv">
+        <div class="dash">
+          <div class="dtp">
+            <div>
+              <h4>Forecast Tracking — collections portfolio</h4>
+              <div class="s">Reads the monthly forecast live on open · 52 accounts in scope · figures synthetic</div>
+            </div>
+            <div class="seg"><b class="on">Professional</b><b>Midnight</b><b>Presentation</b></div>
+          </div>
+
+          <div class="bento">
+            <div class="kpi"><div class="l">Committed forecast</div><div class="n">$2.41M</div><div class="f">52 accounts in scope</div></div>
+            <div class="kpi"><div class="l">Cash collected</div><div class="n">$1.86M</div><div class="f"><span class="wa">77% of forecast</span></div></div>
+            <div class="kpi"><div class="l">Outstanding</div><div class="n">$554K</div><div class="f">21 accounts open</div></div>
+            <div class="kpi"><div class="l">Required run rate</div><div class="n">$46.2K</div><div class="f">per business day · 12 days left</div></div>
+          </div>
+
+          <div class="b2col">
+            <div class="pnl">
+              <div class="l">Collection progress</div>
+              <div class="trk"><div class="fl"></div><div class="nw"><b>today</b></div></div>
+              <div class="lg"><span>77% collected</span><span>62% of the month elapsed</span></div>
+            </div>
+            <div class="pnl">
+              <div class="l">Portfolio breakdown</div>
+              <div class="brk"><b>31</b> paid · <b>9</b> partial<br><b>12</b> no payment · <b>3</b> residual to review</div>
+            </div>
+          </div>
+
+          <div class="pnl">
+            <div class="l" style="margin-bottom:11px">Open accounts — 21 accounts · $554,180 outstanding</div>
+            <div class="tblx">
+              <table class="acc">
+                <thead><tr>
+                  <th style="width:20%">Account</th><th class="r">Outstanding</th><th style="width:17%">Blocker</th>
+                  <th style="width:33%">Evidence from the customer</th><th>Follow-up</th>
+                </tr></thead>
+                <tbody>
+                  <tr>
+                    <td>Client B · Retail</td><td class="r">$16,830.64</td>
+                    <td><span class="bdg b1">Credit not applied</span></td>
+                    <td><span class="ql">An open credit matches the outstanding amount to the cent — routes to cash application, the customer is not contacted.</span></td>
+                    <td><span class="bt off">Not applicable</span></td>
+                  </tr>
+                  <tr>
+                    <td>Client A · Enterprise</td><td class="r">$33,559.07</td>
+                    <td><span class="bdg b2">Promise broken</span></td>
+                    <td><span class="ql">Customer committed to a payment date in writing; that date has now passed.</span></td>
+                    <td><span class="bt">Draft follow-up</span></td>
+                  </tr>
+                  <tr>
+                    <td>Client C · Technology</td><td class="r">$41,208.00</td>
+                    <td><span class="bdg b3">PO missing</span></td>
+                    <td><span class="ql">Purchase orders on file no longer exist in the customer's procurement system — billing blocked upstream.</span></td>
+                    <td><span class="bt off">Draft created</span></td>
+                  </tr>
+                  <tr>
+                    <td>Client D · Media</td><td class="r">$12,470.00</td>
+                    <td><span class="bdg b4">Invoice not received</span></td>
+                    <td><span class="ql">Customer has no record of receiving the invoice; the distribution list needs correcting on our side.</span></td>
+                    <td><span class="bt">Draft follow-up</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="featnotes">
+        <div class="fn glass lift rv">
+          <div class="cat">The money is live</div>
+          <p>Forecast, collected, outstanding and the <b>daily run rate needed</b>, never a stale screenshot.</p>
+        </div>
+        <div class="fn glass lift rv d1">
+          <div class="cat">The reason is evidenced</div>
+          <p><b>13 blocker types</b>, each with the customer's own sentence and a link to the thread.</p>
+        </div>
+        <div class="fn glass lift rv d2 g">
+          <div class="cat">Two of these shouldn't be chased</div>
+          <p>An unapplied credit is <b>our</b> task, not the customer's, so it gets no follow-up button.</p>
+        </div>
+        <div class="fn glass lift rv d3 r">
+          <div class="cat">The follow-up is gated</div>
+          <p>A draft exists <b>only when I press the button</b>, and then the button locks.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHOD + LIMITS -->
+<section id="how">
+  <div class="wrap">
+    <div class="g2">
+      <div>
+        <div class="shead rv" style="margin-bottom:22px">
+          <p class="kicker">How I build</p>
+          <h2>Four steps <span class="grad">that repeat</span></h2>
+        </div>
+        <div class="mini glass rv d1">
+          <div class="mrow"><div class="n">01</div><div class="t"><b>Map the manual process first.</b> <span>How the job is done today, decision by decision, with no AI.</span></div></div>
+          <div class="mrow"><div class="n">02</div><div class="t"><b>Decide where AI belongs.</b> <span>"Copy A into B" is plain code. "Read, classify, decide" is where a model earns its place.</span></div></div>
+          <div class="mrow"><div class="n">03</div><div class="t"><b>Build the human gate in from the start.</b> <span>Approval before anything reaches a customer, from day one.</span></div></div>
+          <div class="mrow"><div class="n">04</div><div class="t"><b>Turn every correction into a written rule</b> <span>— so the tools improve with use instead of decaying.</span></div></div>
+        </div>
+        <div class="callout rv d2" style="margin-top:18px">
+          <p>Three of the six outgrew a single procedure. Once a tool needs to remember <b>last month</b>, it becomes a system: one stage writes a ledger another reads.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="shead rv d1" style="margin-bottom:22px">
+          <p class="kicker">Governance</p>
+          <h2>Where the AI <span class="grad">has to stop</span></h2>
+        </div>
+        <div class="mini glass rv d2">
+          <div class="mrow"><div class="ic">✋</div><div class="t"><b>Nothing customer-facing sends itself.</b> <span>Every email, invoice and ticket waits for a human.</span></div></div>
+          <div class="mrow"><div class="ic">🚫</div><div class="t"><b>Never chase a credit balance.</b> <span>Net-negative accounts are excluded regardless of status.</span></div></div>
+          <div class="mrow"><div class="ic">✍️</div><div class="t"><b>Never invent commentary.</b> <span>A new account shows an empty cell. Blank is the honest answer.</span></div></div>
+          <div class="mrow"><div class="ic">🙋</div><div class="t"><b>Never guess a classification.</b> <span>Unknown owner means the run pauses and asks me.</span></div></div>
+          <div class="mrow"><div class="ic">📉</div><div class="t"><b>Never report a number it can't prove.</b> <span>A failed reconciliation aborts the report.</span></div></div>
+        </div>
+        <div class="callout rv d3" style="margin-top:18px">
+          <p class="quote" style="margin:0">"A tool that stops and asks is worth more than one that's confidently wrong."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="wrap">
+    <div class="shead rv">
+      <p class="kicker">Capabilities</p>
+      <h2>What <span class="grad">transfers</span></h2>
+    </div>
+    <div class="skills">
+      <div class="sk glass lift rv">
+        <div class="cat">AI &amp; automation</div>
+        <p>Agentic workflow design · procedure design with explicit rule precedence · human-in-the-loop governance · multi-stage systems with persistent state · scheduled agents</p>
+      </div>
+      <div class="sk glass lift rv d1">
+        <div class="cat">Data &amp; controls</div>
+        <p>SQL and invoice-level warehouse modelling · pipeline reconciliation and field-by-field validation · pre-output validation gates · source-of-truth definition</p>
+      </div>
+      <div class="sk glass lift rv d2">
+        <div class="cat">Finance operations</div>
+        <p>B2B collections and AR at enterprise scale · dunning and escalation design · credit memo and cash-application diagnosis · forecast attainment and variance · AU GST compliance</p>
+      </div>
+      <div class="sk glass lift rv d3">
+        <div class="cat">Tools</div>
+        <p>Snowflake · NetSuite · Jira · Google Workspace and Gmail API automation · Excel automation · self-contained HTML dashboards · Spanish (native) / English (professional)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="card rv">
+      <p class="kicker">Get in touch</p>
+      <h2>Happy to walk through <span class="grad">any of these</span></h2>
+      <p class="lede" style="max-width:56ch;margin-top:14px">Focused on FP&amp;A and Finance Strategy &amp; Operations roles. If you're building automation inside a finance team, I'd enjoy the conversation.</p>
+      <div class="cta">
+        <a class="btn pri" href="https://www.linkedin.com/in/albertocacho/" target="_blank" rel="noopener">linkedin.com/in/albertocacho</a>
+        <a class="btn" href="mailto:alberto.lcacho@hotmail.com">alberto.lcacho@hotmail.com</a>
+        <a class="btn" href="tel:+525635499199">+52 56 3549 9199</a>
+      </div>
+      <div class="fine">
+        <b>Alberto Cacho</b> — Sr. Collector &amp; B2B Finance Operations Lead · Mexico City<br>
+        All examples anonymised; interface examples use synthetic data.
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add('in');
+      if(e.target.hasAttribute('data-count')) countUp(e.target);
+      io.unobserve(e.target);
+    });
+  },{threshold:.14, rootMargin:'0px 0px -60px 0px'});
+  document.querySelectorAll('.rv,[data-count]').forEach(function(el){ io.observe(el); });
+
+  function countUp(el){
+    var target = parseFloat(el.getAttribute('data-count'));
+    var pre = el.getAttribute('data-pre') || '', suf = el.getAttribute('data-suf') || '';
+    var out = el.querySelector('.v'); if(!out) return;
+    var dur = 1400, t0 = null;
+    function frame(ts){
+      if(!t0) t0 = ts;
+      var p = Math.min((ts - t0)/dur, 1), e = 1 - Math.pow(1-p, 3);
+      out.textContent = pre + Math.round(target*e).toLocaleString('en-US') + suf;
+      if(p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  var flow = document.getElementById('flow'), acc = document.getElementById('flow-acc'),
+      dot = document.getElementById('flow-dot'), orbit = document.getElementById('orbit'),
+      still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+      accLen = acc && acc.getTotalLength ? acc.getTotalLength() : 0;
+  function backdrop(y, p){
+    var vh = window.innerHeight, vw = window.innerWidth;
+    if(still){ if(acc) acc.style.strokeDashoffset = 0; return; }
+    if(flow) flow.style.transform = 'translate3d(0,'+(-p*vh)+'px,0)';
+    if(orbit) orbit.style.transform = 'translate3d(0,'+(-y*0.08)+'px,0) rotate('+(y*0.045)+'deg)';
+    if(acc){
+      var q = Math.min(1, Math.max(0, p*1.06));
+      acc.style.strokeDashoffset = (1 - q);
+      if(dot && accLen){
+        var pt = acc.getPointAtLength(accLen*q);
+        dot.style.transform = 'translate3d('+(pt.x/1440*vw)+'px,'+(pt.y/900*vh)+'px,0)';
+        dot.classList.toggle('on', q > 0.02 && q < 0.995);
+      }
+    }
+  }
+
+  var nav = document.getElementById('nav'), prog = document.getElementById('prog'),
+      aur = document.querySelectorAll('.aur'), ticking = false;
+  function onScroll(){
+    var y = window.scrollY || window.pageYOffset;
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    prog.style.width = (h>0 ? (y/h)*100 : 0) + '%';
+    nav.classList.toggle('stuck', y > 40);
+    backdrop(y, h>0 ? y/h : 0);
+    for(var i=0;i<aur.length;i++){ aur[i].style.transform = 'translate3d(0,'+(y*(0.05+i*0.035))+'px,0)'; }
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){ if(!ticking){ requestAnimationFrame(onScroll); ticking = true; } }, {passive:true});
+  window.addEventListener('resize', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>
